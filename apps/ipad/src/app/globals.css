@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+:root {
+  --color-idle: #6b7280;
+  --color-active: #3b82f6;
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+  --color-warning: #eab308;
+  --color-bg: #030712;
+  --color-surface: #111827;
+  --color-surface-alt: #1f2937;
+  --color-text: #f3f4f6;
+  --color-text-muted: #9ca3af;
+  --nav-height: 80px;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  overscroll-behavior: none;
+}
+
+/* iPad touch targets: min 48px, primary 64px+ */
+button,
+a,
+[role="button"] {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* Remove hover states for touch devices */
+@media (hover: none) {
+  button:hover,
+  a:hover {
+    opacity: 1;
+  }
+}
+
+/* Safe area for iPad notch/home indicator */
+.safe-bottom {
+  padding-bottom: max(env(safe-area-inset-bottom), 16px);
+}
+
+/* Prevent text selection on UI controls */
+.no-select {
+  -webkit-user-select: none;
+  user-select: none;
+}
