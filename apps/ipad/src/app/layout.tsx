@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Heartbeat } from "@/components/layout/Heartbeat";
 import { TouchNav } from "@/components/layout/TouchNav";
 import "./globals.css";
 
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="de" className="dark">
       <body className="min-h-dvh bg-gray-950 text-gray-100 antialiased no-select">
+        <Heartbeat />
         <main className="pb-[var(--nav-height)]">{children}</main>
         <TouchNav />
       </body>

@@ -5,10 +5,10 @@ AutoPilot — Remote control and automation for the Werth X-ray Tomograph (CT Sc
 ## Architecture
 
 4-node system:
-- **iPad App** (`apps/ipad/`, port 4690) — Touch-optimized Next.js scan control UI
-- **Raspberry Pi** (`python/pi-firmware/`, port 4691) — 2× 4K camera streaming + mDNS discovery
-- **CT-PC API** (`python/ctpc-api/`, port 4692) — FastAPI server wrapping WinWerth automation
-- **Health Dashboard** (`apps/health/`, port 4693) — Real-time 4-node monitoring
+- **iPad App** (`apps/ipad/`, port 4800) — Touch-optimized Next.js scan control UI
+- **Raspberry Pi** (`python/pi-firmware/`, port 4801) — 2× 4K camera streaming + mDNS discovery
+- **CT-PC API** (`python/ctpc-api/`, port 4802) — FastAPI server wrapping WinWerth automation
+- **Health Dashboard** (`apps/health/`, port 4803) — Real-time 4-node monitoring
 
 ## Quick Start
 
@@ -21,7 +21,7 @@ pnpm dev --filter=health
 # Python CT-PC API (Windows only)
 cd python/ctpc-api
 pip install -e .
-uvicorn src.main:app --host 0.0.0.0 --port 4692
+uvicorn src.main:app --host 0.0.0.0 --port 4802
 
 # Raspberry Pi (on Pi hardware)
 cd python/pi-firmware
@@ -33,11 +33,11 @@ node src/server.ts
 
 ```
 apps/
-  ipad/           Next.js iPad scan UI (port 4690)
-  health/         Next.js health dashboard (port 4693)
+  ipad/           Next.js iPad scan UI (port 4800)
+  health/         Next.js health dashboard (port 4803)
 python/
-  ctpc-api/       FastAPI WinWerth automation server (port 4692)
-  pi-firmware/    Node.js camera server for Raspberry Pi (port 4691)
+  ctpc-api/       FastAPI WinWerth automation server (port 4802)
+  pi-firmware/    Node.js camera server for Raspberry Pi (port 4801)
 packages/
   autopilot-types/  Shared TypeScript types
   autopilot-ws/     WebSocket protocol definitions
@@ -45,7 +45,7 @@ packages/
 
 ## Conventions
 
-- Ports: 4690-4719 (autopilot ecosystem range)
+- Ports: 4800-4804 (autopilot ecosystem range)
 - WinWerth control: NEVER send commands faster than 200ms apart (UI needs processing time)
 - Pixel coordinates: All in `python/ctpc-api/winWerth_data.json` — resolution-dependent!
 - Camera streams: MJPEG over HTTP, snapshots via REST

@@ -3,12 +3,16 @@ import type {
   ScanResult,
   ScanJobRequest,
   SystemStatus,
+  Worker,
+  TimeLog,
+  TimeTrackingStats,
 } from "@autopilot/types";
 
 const CT_PC_BASE =
-  typeof window !== "undefined"
-    ? `${window.location.protocol}//${window.location.hostname}:4692`
-    : "http://localhost:4692";
+  process.env.NEXT_PUBLIC_CT_PC_URL ||
+  (typeof window !== "undefined"
+    ? `${window.location.protocol}//${window.location.hostname}:4802`
+    : "http://localhost:4802");
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${CT_PC_BASE}${path}`, {
@@ -123,4 +127,53 @@ export function runAnalysis(
     method: "POST",
     body: JSON.stringify({ scanJobId, referenceStlPath, toleranceMm }),
   });
+}
+
+// ─── Time Tracking (Zeiterfassung) ───
+
+/** List all workers */
+export function getWorkers(): Promise<Worker[]> {
+  return request("/api/workers");
+}
+
+/** Add a new worker */
+export function addWorker(name: string): Promise<Worker> {
+  return request("/api/workers", {
+    method: "POST",
+    body: JSON.stringify({ name }),
+  });
+}
+
+/** Remove a worker */
+export function removeWorker(id: string): Promise<void> {
+  return request(`/api/workers/${id}`, { method: "DELETE" });
+}
+
+/** Login a worker (auto-logouts any currently active worker) */
+export function loginWorker(id: string): Promise<TimeLog> {
+  return request(`/api/workers/${id}/login`, { method: "POST" });
+}
+
+/** Logout a worker */
+export function logoutWorker(id: string): Promise<TimeLog> {
+  return request(`/api/workers/${id}/logout`, { method: "POST" });
+}
+
+/** Get the currently active worker (or null) */
+export function getActiveWorker(): Promise<Worker | null> {
+  return request("/api/workers/active");
+}
+
+/** Get time logs, optionally filtered by date and/or workerId */
+export function getTimeLogs(date?: string, workerId?: string): Promise<TimeLog[]> {
+  const params = new URLSearchParams();
+  if (date) params.set("date", date);
+  if (workerId) params.set("workerId", workerId);
+  const qs = params.toString();
+  return request(`/api/timelogs${qs ? `?${qs}` : ""}`);
+}
+
+/** Get today's time tracking statistics */
+export function getTimeStats(): Promise<TimeTrackingStats> {
+  return request("/api/timelogs/stats");
 }

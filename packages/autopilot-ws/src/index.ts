@@ -22,7 +22,13 @@ export interface WSConfig {
 }
 
 export const DEFAULT_WS_CONFIG: WSConfig = {
-  url: "ws://localhost:4692/ws/events",
+  url:
+    (typeof process !== "undefined" && process.env?.NEXT_PUBLIC_CT_PC_URL
+      ? process.env.NEXT_PUBLIC_CT_PC_URL.replace(/^http/, "ws") + "/ws/events"
+      : undefined) ||
+    (typeof window !== "undefined"
+      ? `ws://${window.location.hostname}:4802/ws/events`
+      : "ws://localhost:4802/ws/events"),
   reconnectInterval: 3000,
   maxReconnectAttempts: 10,
 };

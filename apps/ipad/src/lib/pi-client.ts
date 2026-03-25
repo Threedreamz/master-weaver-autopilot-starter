@@ -1,9 +1,10 @@
 /** Raspberry Pi camera endpoints */
 
 const PI_BASE =
-  typeof window !== "undefined"
-    ? `${window.location.protocol}//${window.location.hostname}:4691`
-    : "http://localhost:4691";
+  process.env.NEXT_PUBLIC_PI_URL ||
+  (typeof window !== "undefined"
+    ? `http://${window.location.hostname}:4801`
+    : "http://192.168.4.1:4801");
 
 /** MJPEG stream URL for a given camera */
 export function streamUrl(cameraId: number = 0): string {

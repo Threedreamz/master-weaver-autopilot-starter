@@ -1,0 +1,10 @@
+node_modules
+.next
+.git
+*.md
+!README.md
+.env
+.env.*
+.turbo
+python/pi-firmware/venv
+python/pi-firmware/__pycache__

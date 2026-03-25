@@ -1,0 +1,28 @@
+# Raspberry Pi 5 - Autopilot Camera Server Configuration
+# Append these lines to /boot/firmware/config.txt
+
+# ─── Camera Configuration (Pi 5 libcamera stack) ────────────────────
+# Enable both CSI camera ports (CAM0 + CAM1) for dual-camera setup
+# Pi 5 uses the new RP1 chip — cameras auto-detected via libcamera
+dtoverlay=imx708
+dtoverlay=imx708,cam1
+
+# Enable hardware watchdog for auto-recovery
+dtparam=watchdog=on
+
+# GPU memory allocation (256MB for dual 4K camera processing)
+gpu_mem=256
+
+# Enable I2C (for future sensor expansion)
+dtparam=i2c_arm=on
+
+# Enable SPI (for future sensor expansion)
+dtparam=spi=on
+
+# USB power output (for USB cameras/peripherals)
+max_usb_current=1
+
+# ─── WiFi / Regulatory ──────────────────────────────────────────────
+# Set WiFi regulatory domain to Germany (required for 5GHz AP mode)
+# This enables DFS channels and correct power limits
+dtparam=ant2

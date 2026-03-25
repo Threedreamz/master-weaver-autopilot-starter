@@ -123,7 +123,7 @@ export default function ActiveScanPage() {
             onClick={() => {
               // trigger STL download
               window.open(
-                `${window.location.protocol}//${window.location.hostname}:4692/api/scans/${scanId}/download-stl`,
+                `${window.location.protocol}//${window.location.hostname}:4802/api/scans/${scanId}/download-stl`,
                 "_blank"
               );
             }}

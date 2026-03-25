@@ -38,7 +38,10 @@ export type WSEventType =
   | "system.status"
   | "system.error"
   | "camera.frame"
-  | "health.update";
+  | "health.update"
+  | "worker.login"
+  | "worker.logout"
+  | "worker.auto-logout";
 
 /** WebSocket event envelope */
 export interface WSEvent<T = unknown> {
@@ -95,6 +98,45 @@ export interface ScanResult {
   state: ScanState;
   deviationReport?: DeviationReport;
 }
+
+// ─── Time Tracking (Zeiterfassung) ───
+
+/** Worker / Mitarbeiter */
+export interface Worker {
+  id: string;
+  name: string;
+  active: boolean;
+  lastLogin?: string;
+  lastLogout?: string;
+  createdAt: string;
+}
+
+/** Time tracking action types */
+export type TimeLogAction = "login" | "logout" | "auto-logout";
+
+/** Single time log entry */
+export interface TimeLog {
+  id: string;
+  workerId: string;
+  workerName: string;
+  action: TimeLogAction;
+  timestamp: string;
+  scanId?: string;
+}
+
+/** Daily time tracking statistics */
+export interface TimeTrackingStats {
+  totalHoursToday: number;
+  activeWorker: Worker | null;
+  todayLogs: TimeLog[];
+  workerHours: { workerId: string; workerName: string; hours: number }[];
+}
+
+/** WebSocket event types for time tracking */
+export type WSTimeEventType =
+  | "worker.login"
+  | "worker.logout"
+  | "worker.auto-logout";
 
 /** Soll-Ist deviation report */
 export interface DeviationReport {

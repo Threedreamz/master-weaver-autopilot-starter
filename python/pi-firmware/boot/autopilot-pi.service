@@ -1,0 +1,41 @@
+[Unit]
+Description=Autopilot Pi Camera Server
+Documentation=https://github.com/Threedreamz/master-weaver-autopilot-starter
+After=network-online.target avahi-daemon.service hostapd.service dnsmasq.service
+Wants=network-online.target
+Requires=hostapd.service dnsmasq.service
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/opt/autopilot/python/pi-firmware
+ExecStart=/usr/bin/node dist/server.js
+Restart=always
+RestartSec=5
+WatchdogSec=30
+
+# Environment
+Environment=NODE_ENV=production
+Environment=PORT=4801
+Environment=HOST=0.0.0.0
+Environment=AP_IP=192.168.4.1
+Environment=LOG_LEVEL=info
+
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/tmp
+PrivateTmp=true
+
+# Resource limits
+MemoryMax=512M
+CPUQuota=80%
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=autopilot-pi
+
+[Install]
+WantedBy=multi-user.target
