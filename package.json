@@ -1,0 +1,16 @@
+{
+  "name": "master-weaver-autopilot-starter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AutoPilot — CT Scanner remote control & automation",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "test": "turbo test"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0"
+  },
+  "packageManager": "pnpm@9.15.0"
+}

@@ -1,0 +1,10 @@
+{
+  "ecosystem": "autopilot",
+  "parentEcosystem": "3dreamz",
+  "templates": {
+    "hooks": ["base"],
+    "rules": ["base", "autopilot"],
+    "skills": ["base", "autopilot"]
+  },
+  "overrides": {}
+}
