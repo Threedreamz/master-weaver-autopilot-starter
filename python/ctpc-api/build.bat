@@ -27,7 +27,7 @@ echo [2/3] Installing project dependencies...
 pip install -e .
 if errorlevel 1 (
     echo WARNING: pip install -e . failed. Trying pip install -r requirements...
-    pip install fastapi "uvicorn[standard]" websockets pyautogui pywinauto opencv-python numpy mss pynput Pillow
+    pip install fastapi "uvicorn[standard]" websockets pyautogui pywinauto opencv-python numpy mss pynput Pillow scipy numpy-stl zeroconf httpx
 )
 
 REM Build the .exe

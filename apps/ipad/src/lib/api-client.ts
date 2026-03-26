@@ -8,14 +8,51 @@ import type {
   TimeTrackingStats,
 } from "@autopilot/types";
 
-const CT_PC_BASE =
-  process.env.NEXT_PUBLIC_CT_PC_URL ||
-  (typeof window !== "undefined"
-    ? `${window.location.protocol}//${window.location.hostname}:4802`
-    : "http://localhost:4802");
+// ---------------------------------------------------------------------------
+// CT-PC URL discovery
+// ---------------------------------------------------------------------------
+// The iPad app now runs ON the Pi. The CT-PC is a separate machine discovered
+// via the Pi's /api/discovery endpoint or an environment variable override.
+// ---------------------------------------------------------------------------
+
+let _ctpcUrl: string | null = null;
+
+async function getCtpcUrl(): Promise<string> {
+  if (_ctpcUrl) return _ctpcUrl;
+
+  // 1. Explicit environment variable override
+  if (process.env.NEXT_PUBLIC_CT_PC_URL) {
+    _ctpcUrl = process.env.NEXT_PUBLIC_CT_PC_URL;
+    return _ctpcUrl;
+  }
+
+  // 2. Auto-discover via Pi's discovery API (same origin since app runs on Pi)
+  try {
+    const origin =
+      typeof window !== "undefined" ? window.location.origin : "http://localhost";
+    const res = await fetch(`${origin}/api/discovery`);
+    const data = await res.json();
+    if (data.ctpc?.ip) {
+      _ctpcUrl = `http://${data.ctpc.ip}:${data.ctpc.port || 4802}`;
+      return _ctpcUrl;
+    }
+  } catch {
+    // Discovery unavailable — fall through to fallback
+  }
+
+  // 3. Fallback
+  _ctpcUrl = "http://localhost:4802";
+  return _ctpcUrl;
+}
+
+/** Reset the cached CT-PC URL (e.g. after network change) */
+export function resetCtpcUrl(): void {
+  _ctpcUrl = null;
+}
 
 async function request<T = any>(path: string, options?: RequestInit): Promise<T> {
-  const res = await fetch(`${CT_PC_BASE}${path}`, {
+  const base = await getCtpcUrl();
+  const res = await fetch(`${base}${path}`, {
     ...options,
     headers: {
       "Content-Type": "application/json",
@@ -142,9 +179,10 @@ export async function getScan(jobId: string): Promise<ScanResult> {
 
 /** Upload reference STL for Soll-Ist comparison */
 export async function uploadReferenceStl(file: File): Promise<{ path: string; filename: string; size: number }> {
+  const base = await getCtpcUrl();
   const formData = new FormData();
   formData.append("file", file);
-  const res = await fetch(`${CT_PC_BASE}/api/analysis/upload-reference`, {
+  const res = await fetch(`${base}/api/analysis/upload-reference`, {
     method: "POST",
     body: formData,
   });

@@ -2,6 +2,13 @@
 
 Runs the FastAPI server as a standalone Windows application.
 Built with PyInstaller into a single .exe for deployment on the CT-PC.
+
+On startup the server:
+1. Prints a banner with network addresses
+2. Starts a background thread that registers this CT-PC with the Raspberry Pi
+   central server via its /api/discovery endpoint (retries every 30s)
+3. Optionally publishes an mDNS service (_autopilot-ct._tcp) if zeroconf is installed
+4. Launches the FastAPI uvicorn server
 """
 
 from __future__ import annotations
@@ -12,6 +19,8 @@ import platform
 import signal
 import socket
 import sys
+import threading
+import time
 from typing import List, Tuple
 
 # ---------------------------------------------------------------------------
@@ -106,6 +115,142 @@ def _print_banner(mock_mode: bool) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Pi registration — announce this CT-PC to the central Raspberry Pi server
+# ---------------------------------------------------------------------------
+
+def _get_primary_ip() -> str:
+    """Return the primary LAN IP address of this machine."""
+    ips = _get_local_ips()
+    for hint, ip in ips:
+        if hint == "primary":
+            return ip
+    return ips[0][1] if ips else "127.0.0.1"
+
+
+def _register_with_pi() -> bool:
+    """Register this CT-PC with the Raspberry Pi central server.
+
+    Tries several well-known Pi addresses and returns True on first success.
+    """
+    try:
+        import httpx  # type: ignore[import-untyped]
+    except ImportError:
+        # httpx not available — try urllib as fallback
+        import json
+        import urllib.request
+        import urllib.error
+
+        local_ip = _get_primary_ip()
+        hostname = socket.gethostname()
+        payload = json.dumps({
+            "ip": local_ip,
+            "port": PORT,
+            "hostname": hostname,
+            "version": VERSION,
+            "type": "ctpc",
+        }).encode()
+
+        for pi_url in _PI_URLS:
+            try:
+                req = urllib.request.Request(
+                    f"{pi_url}/api/discovery",
+                    data=payload,
+                    headers={"Content-Type": "application/json"},
+                    method="POST",
+                )
+                with urllib.request.urlopen(req, timeout=3) as resp:
+                    if resp.status in (200, 201):
+                        logger.info("Registered with Pi at %s", pi_url)
+                        return True
+            except Exception:
+                continue
+        return False
+
+    local_ip = _get_primary_ip()
+    hostname = socket.gethostname()
+
+    for pi_url in _PI_URLS:
+        try:
+            resp = httpx.post(
+                f"{pi_url}/api/discovery",
+                json={
+                    "ip": local_ip,
+                    "port": PORT,
+                    "hostname": hostname,
+                    "version": VERSION,
+                    "type": "ctpc",
+                },
+                timeout=3.0,
+            )
+            if resp.status_code in (200, 201):
+                logger.info("Registered with Pi at %s", pi_url)
+                return True
+        except Exception:
+            continue
+
+    return False
+
+
+_PI_URLS = [
+    "http://autopilot.local",
+    "http://192.168.4.1",
+    "http://192.168.1.1",
+]
+
+
+def _registration_loop() -> None:
+    """Background loop: register with Pi every 30 seconds until shutdown."""
+    registered = False
+    while True:
+        ok = _register_with_pi()
+        if ok and not registered:
+            registered = True
+        elif not ok:
+            registered = False
+            logger.debug("Could not register with Pi (will retry in 30s)")
+        time.sleep(30)
+
+
+# ---------------------------------------------------------------------------
+# Optional mDNS service publishing
+# ---------------------------------------------------------------------------
+
+def _start_mdns() -> None:
+    """Publish _autopilot-ct._tcp.local. via zeroconf (if available)."""
+    try:
+        from zeroconf import ServiceInfo, Zeroconf  # type: ignore[import-untyped]
+    except ImportError:
+        logger.info("zeroconf not installed — skipping mDNS publishing")
+        return
+
+    local_ip = _get_primary_ip()
+    try:
+        ip_bytes = socket.inet_aton(local_ip)
+    except OSError:
+        logger.warning("Could not convert %s to bytes — skipping mDNS", local_ip)
+        return
+
+    info = ServiceInfo(
+        "_autopilot-ct._tcp.local.",
+        f"WerthAutopilot ({socket.gethostname()})._autopilot-ct._tcp.local.",
+        addresses=[ip_bytes],
+        port=PORT,
+        properties={
+            "version": VERSION,
+            "hostname": socket.gethostname(),
+            "type": "ctpc",
+        },
+    )
+
+    try:
+        zc = Zeroconf()
+        zc.register_service(info)
+        logger.info("mDNS service published: _autopilot-ct._tcp on %s:%d", local_ip, PORT)
+    except Exception as exc:
+        logger.warning("mDNS registration failed: %s", exc)
+
+
+# ---------------------------------------------------------------------------
 # Main entry point
 # ---------------------------------------------------------------------------
 
@@ -116,6 +261,13 @@ def main() -> None:
 
     mock_mode = not _detect_winwerth()
     _print_banner(mock_mode)
+
+    # Start Pi registration loop in background thread (retries every 30s)
+    logger.info("Starting Pi registration background thread...")
+    threading.Thread(target=_registration_loop, daemon=True).start()
+
+    # Publish mDNS service (non-blocking, logs if zeroconf unavailable)
+    _start_mdns()
 
     # Graceful shutdown on Ctrl+C
     def _signal_handler(sig: int, frame: object) -> None:

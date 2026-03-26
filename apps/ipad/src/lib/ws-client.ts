@@ -2,12 +2,12 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import type { WSEvent, WSEventType } from "@autopilot/types";
-import { parseEvent, DEFAULT_WS_CONFIG } from "@autopilot/ws";
+import { parseEvent, DEFAULT_WS_CONFIG, resolveWsUrl } from "@autopilot/ws";
 
 export type ConnectionState = "connecting" | "connected" | "disconnected";
 
 interface UseWSEventsOptions {
-  /** WebSocket URL, defaults to CT-PC ws endpoint */
+  /** WebSocket URL override — when omitted, auto-discovers CT-PC via Pi */
   url?: string;
   /** Filter to specific event types */
   filter?: WSEventType[];
@@ -17,11 +17,12 @@ interface UseWSEventsOptions {
 
 /**
  * React hook for real-time WebSocket events from CT-PC.
+ * Auto-discovers the CT-PC WebSocket URL via the Pi's discovery API.
  * Auto-reconnects on disconnect.
  */
 export function useWSEvents(options: UseWSEventsOptions = {}) {
   const {
-    url = DEFAULT_WS_CONFIG.url,
+    url: urlOverride,
     filter,
     reconnectInterval = DEFAULT_WS_CONFIG.reconnectInterval ?? 3000,
   } = options;
@@ -32,12 +33,22 @@ export function useWSEvents(options: UseWSEventsOptions = {}) {
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const attemptCount = useRef(0);
+  const resolvedUrl = useRef<string | null>(urlOverride ?? null);
 
-  const connect = useCallback(() => {
+  const connect = useCallback(async () => {
     if (wsRef.current?.readyState === WebSocket.OPEN) return;
 
+    // Resolve CT-PC WebSocket URL on first connect (or use override)
+    if (!resolvedUrl.current) {
+      try {
+        resolvedUrl.current = await resolveWsUrl();
+      } catch {
+        resolvedUrl.current = DEFAULT_WS_CONFIG.url;
+      }
+    }
+
     setConnectionState("connecting");
-    const ws = new WebSocket(url);
+    const ws = new WebSocket(resolvedUrl.current);
     wsRef.current = ws;
 
     ws.onopen = () => {
@@ -68,7 +79,7 @@ export function useWSEvents(options: UseWSEventsOptions = {}) {
     ws.onerror = () => {
       ws.close();
     };
-  }, [url, filter, reconnectInterval]);
+  }, [urlOverride, filter, reconnectInterval]);
 
   const disconnect = useCallback(() => {
     if (reconnectTimer.current) {

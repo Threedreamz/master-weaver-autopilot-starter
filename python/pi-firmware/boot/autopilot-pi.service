@@ -1,37 +1,28 @@
 [Unit]
-Description=Autopilot Pi Camera Server
+Description=Autopilot Pi Central Server (PM2)
 Documentation=https://github.com/Threedreamz/master-weaver-autopilot-starter
-After=network-online.target avahi-daemon.service hostapd.service dnsmasq.service
+After=network-online.target avahi-daemon.service nginx.service
 Wants=network-online.target
-Requires=hostapd.service dnsmasq.service
+Requires=nginx.service
 
 [Service]
-Type=simple
+Type=forking
 User=pi
 Group=pi
-WorkingDirectory=/opt/autopilot/python/pi-firmware
-ExecStartPre=/bin/bash -c 'test -f dist/server.js || pnpm build'
-ExecStart=/usr/bin/node dist/server.js
+WorkingDirectory=/opt/autopilot
+ExecStart=/usr/bin/pm2 start /opt/autopilot/ecosystem.config.js
+ExecReload=/usr/bin/pm2 reload all
+ExecStop=/usr/bin/pm2 stop all
 Restart=always
 RestartSec=5
-WatchdogSec=30
 
 # Environment
 Environment=NODE_ENV=production
-Environment=PORT=4801
-Environment=HOST=0.0.0.0
-Environment=AP_IP=192.168.4.1
-Environment=LOG_LEVEL=info
-
-# Security hardening
-NoNewPrivileges=true
-ProtectSystem=strict
-ReadWritePaths=/tmp
-PrivateTmp=true
+Environment=PM2_HOME=/home/pi/.pm2
 
 # Resource limits
-MemoryMax=512M
-CPUQuota=80%
+MemoryMax=1G
+CPUQuota=90%
 
 # Logging
 StandardOutput=journal

@@ -3,7 +3,7 @@
 # Run as root: sudo bash firstboot.sh
 #
 # After this script runs and the Pi reboots:
-#   - Pi broadcasts WiFi SSID "AutoPilot-CT" (WPA2, 5GHz channel 36)
+#   - Pi broadcasts WiFi SSID "AutoPilot-Setup" (WPA2)
 #   - Pi has static IP 192.168.4.1 on wlan0
 #   - DHCP serves 192.168.4.10–192.168.4.50 to connected devices
 #   - mDNS works on the local AP network
@@ -11,8 +11,8 @@
 
 set -euo pipefail
 
-AP_SSID="AutoPilot-CT"
-AP_PASS="autopilot2026"
+AP_SSID="AutoPilot-Setup"
+AP_PASS="autopilot"
 AP_IP="192.168.4.1"
 AP_CHANNEL=36
 AP_COUNTRY="DE"
@@ -35,14 +35,14 @@ fi
 
 # ─── Step 1: Hostname ───────────────────────────────────────────────
 echo ""
-echo "[1/7] Setting hostname to '${HOSTNAME}'..."
+echo "[1/8] Setting hostname to '${HOSTNAME}'..."
 hostnamectl set-hostname "${HOSTNAME}"
 sed -i "s/127\.0\.1\.1.*/127.0.1.1\t${HOSTNAME}/" /etc/hosts
 echo "Hostname set to: $(hostname)"
 
 # ─── Step 2: Install AP packages ────────────────────────────────────
 echo ""
-echo "[2/7] Installing hostapd + dnsmasq..."
+echo "[2/8] Installing hostapd + dnsmasq + avahi..."
 apt-get update -y
 apt-get install -y hostapd dnsmasq avahi-daemon avahi-utils libnss-mdns
 
@@ -50,58 +50,75 @@ apt-get install -y hostapd dnsmasq avahi-daemon avahi-utils libnss-mdns
 systemctl stop hostapd 2>/dev/null || true
 systemctl stop dnsmasq 2>/dev/null || true
 
-# ─── Step 3: Disable wpa_supplicant on wlan0 ────────────────────────
+# ─── Step 3: Create config directory ────────────────────────────────
 echo ""
-echo "[3/7] Disabling wpa_supplicant for wlan0 (AP mode, not client)..."
-# Prevent wpa_supplicant from managing wlan0
-if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then
-  cp /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf.bak
-fi
+echo "[3/8] Creating /opt/autopilot/config/ directory..."
+mkdir -p /opt/autopilot/config
 
-# If using NetworkManager, tell it to leave wlan0 unmanaged
-if [ -d /etc/NetworkManager/conf.d ]; then
-  cat > /etc/NetworkManager/conf.d/99-autopilot-ap.conf << 'NMEOF'
-[keyfile]
-unmanaged-devices=interface-name:wlan0
-NMEOF
-fi
-
-# Disable wpa_supplicant for wlan0 specifically
-systemctl disable wpa_supplicant@wlan0 2>/dev/null || true
-systemctl stop wpa_supplicant@wlan0 2>/dev/null || true
-
-# ─── Step 4: Static IP for wlan0 via dhcpcd ─────────────────────────
+# ─── Step 4: WiFi AP via NetworkManager (Pi OS Bookworm) ────────────
 echo ""
-echo "[4/7] Configuring static IP ${AP_IP} on wlan0..."
-if [ -f /etc/dhcpcd.conf ]; then
-  # Remove any existing wlan0 config
-  sed -i '/# autopilot-ap wlan0/,/^$/d' /etc/dhcpcd.conf
-  cat >> /etc/dhcpcd.conf << EOF
+echo "[4/8] Configuring WiFi Access Point..."
+
+# Pi OS Bookworm uses NetworkManager by default — prefer nmcli AP mode
+if command -v nmcli &>/dev/null; then
+  echo "  Using NetworkManager (nmcli) for AP mode..."
+
+  # Remove any existing AP connection
+  nmcli con delete AutoPilot-AP 2>/dev/null || true
+
+  # Create AP connection with nmcli
+  nmcli con add type wifi ifname wlan0 con-name AutoPilot-AP \
+    ssid "${AP_SSID}" autoconnect yes \
+    wifi.mode ap wifi.band bg \
+    wifi-sec.key-mgmt wpa-psk wifi-sec.psk "${AP_PASS}" \
+    ipv4.method shared ipv4.addresses "${AP_IP}/24"
+
+  echo "  NetworkManager AP configured: SSID=${AP_SSID}"
+
+  # Disable hostapd since nmcli handles AP
+  systemctl disable hostapd 2>/dev/null || true
+  systemctl stop hostapd 2>/dev/null || true
+
+  # Disable wpa_supplicant for wlan0 (nmcli manages it)
+  systemctl disable wpa_supplicant@wlan0 2>/dev/null || true
+  systemctl stop wpa_supplicant@wlan0 2>/dev/null || true
+
+else
+  echo "  NetworkManager not found — falling back to hostapd..."
+
+  # ─── Fallback: hostapd + dhcpcd (legacy Pi OS) ─────────────────
+  # Disable wpa_supplicant on wlan0
+  if [ -f /etc/wpa_supplicant/wpa_supplicant.conf ]; then
+    cp /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf.bak
+  fi
+  systemctl disable wpa_supplicant@wlan0 2>/dev/null || true
+  systemctl stop wpa_supplicant@wlan0 2>/dev/null || true
+
+  # Static IP for wlan0 via dhcpcd
+  if [ -f /etc/dhcpcd.conf ]; then
+    sed -i '/# autopilot-ap wlan0/,/^$/d' /etc/dhcpcd.conf
+    cat >> /etc/dhcpcd.conf << EOF
 
 # autopilot-ap wlan0 — static IP for access point
 interface wlan0
     static ip_address=${AP_IP}/24
     nohook wpa_supplicant
 EOF
-else
-  # Pi OS Bookworm uses NetworkManager — configure via nmcli fallback
-  cat > /etc/network/interfaces.d/wlan0 << EOF
+  else
+    cat > /etc/network/interfaces.d/wlan0 << EOF
 auto wlan0
 iface wlan0 inet static
     address ${AP_IP}
     netmask 255.255.255.0
 EOF
-fi
+  fi
 
-# ─── Step 5: hostapd configuration ──────────────────────────────────
-echo ""
-echo "[5/7] Configuring hostapd (SSID: ${AP_SSID}, 5GHz ch${AP_CHANNEL})..."
-# Copy from boot dir if available, otherwise generate inline
-if [ -f "${SCRIPT_DIR}/hostapd.conf" ]; then
-  cp "${SCRIPT_DIR}/hostapd.conf" /etc/hostapd/hostapd.conf
-else
-  cat > /etc/hostapd/hostapd.conf << EOF
-# AutoPilot CT — WiFi Access Point Configuration
+  # hostapd configuration
+  if [ -f "${SCRIPT_DIR}/hostapd.conf" ]; then
+    cp "${SCRIPT_DIR}/hostapd.conf" /etc/hostapd/hostapd.conf
+  else
+    cat > /etc/hostapd/hostapd.conf << EOF
+# AutoPilot — WiFi Access Point Configuration
 # Generated by firstboot.sh
 
 interface=wlan0
@@ -137,20 +154,20 @@ logger_syslog_level=2
 logger_stdout=-1
 logger_stdout_level=2
 EOF
+  fi
+
+  # Point hostapd to our config
+  mkdir -p /etc/hostapd
+  echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' > /etc/default/hostapd
+
+  # Unmask hostapd (it's masked by default on Raspberry Pi OS)
+  systemctl unmask hostapd
+  systemctl enable hostapd
 fi
 
-# Point hostapd to our config
-sed -i 's|^#DAEMON_CONF=.*|DAEMON_CONF="/etc/hostapd/hostapd.conf"|' /etc/default/hostapd 2>/dev/null || true
-# Also set it for systemd-managed hostapd
-mkdir -p /etc/hostapd
-echo 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' > /etc/default/hostapd
-
-# Unmask hostapd (it's masked by default on Raspberry Pi OS)
-systemctl unmask hostapd
-
-# ─── Step 6: dnsmasq configuration ──────────────────────────────────
+# ─── Step 5: dnsmasq configuration ──────────────────────────────────
 echo ""
-echo "[6/7] Configuring dnsmasq (DHCP: ${DHCP_RANGE_START}–${DHCP_RANGE_END})..."
+echo "[5/8] Configuring dnsmasq (DHCP: ${DHCP_RANGE_START}–${DHCP_RANGE_END})..."
 # Back up original dnsmasq config
 if [ -f /etc/dnsmasq.conf ] && [ ! -f /etc/dnsmasq.conf.orig ]; then
   mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
@@ -160,7 +177,7 @@ if [ -f "${SCRIPT_DIR}/dnsmasq.conf" ]; then
   cp "${SCRIPT_DIR}/dnsmasq.conf" /etc/dnsmasq.conf
 else
   cat > /etc/dnsmasq.conf << EOF
-# AutoPilot CT — DHCP + DNS for WiFi AP
+# AutoPilot — DHCP + DNS for WiFi AP
 # Generated by firstboot.sh
 
 # Only listen on wlan0 (AP interface)
@@ -191,9 +208,9 @@ log-facility=/var/log/dnsmasq.log
 EOF
 fi
 
-# ─── Step 7: Avahi / mDNS ───────────────────────────────────────────
+# ─── Step 6: Avahi / mDNS ───────────────────────────────────────────
 echo ""
-echo "[7/7] Configuring mDNS (Avahi) for AP network..."
+echo "[6/8] Configuring mDNS (Avahi) for AP network..."
 cat > /etc/avahi/avahi-daemon.conf << 'EOF'
 [server]
 host-name=autopilot-pi
@@ -223,22 +240,26 @@ rlimit-stack=4194304
 rlimit-nproc=3
 EOF
 
-# ─── Enable services ────────────────────────────────────────────────
+# ─── Step 7: Enable services ────────────────────────────────────────
 echo ""
-echo "Enabling services for next boot..."
-systemctl enable hostapd
+echo "[7/8] Enabling services for next boot..."
 systemctl enable dnsmasq
 systemctl enable avahi-daemon
 
-# ─── Firewall ───────────────────────────────────────────────────────
+# ─── Step 8: Firewall + network ─────────────────────────────────────
+echo ""
+echo "[8/8] Configuring firewall and network..."
 if command -v ufw &>/dev/null; then
+  ufw allow 80/tcp comment "Nginx HTTP"
+  ufw allow 4800/tcp comment "Autopilot iPad app"
   ufw allow 4801/tcp comment "Autopilot camera server"
+  ufw allow 4804/tcp comment "Autopilot setup portal"
   ufw allow 53/udp comment "DNS (dnsmasq)"
   ufw allow 67/udp comment "DHCP (dnsmasq)"
   ufw allow 5353/udp comment "mDNS/Avahi"
 fi
 
-# ─── Ensure NO IP forwarding (pure local network) ───────────────────
+# Ensure NO IP forwarding (pure local network)
 echo 0 > /proc/sys/net/ipv4/ip_forward
 sed -i 's/^net.ipv4.ip_forward=1/net.ipv4.ip_forward=0/' /etc/sysctl.conf 2>/dev/null || true
 if ! grep -q "net.ipv4.ip_forward" /etc/sysctl.conf; then
@@ -254,11 +275,10 @@ echo "  SSID:          ${AP_SSID}"
 echo "  Password:      ${AP_PASS}"
 echo "  Pi IP:         ${AP_IP}"
 echo "  DHCP range:    ${DHCP_RANGE_START} – ${DHCP_RANGE_END}"
-echo "  Band:          5GHz (channel ${AP_CHANNEL})"
 echo "  Internet:      NONE (offline local network)"
 echo ""
 echo "  mDNS:          autopilot-pi.local"
-echo "  Camera server: http://${AP_IP}:4801"
+echo "  Services:      Nginx on port 80 (after setup.sh)"
 echo ""
-echo "  >>> REBOOT NOW: sudo reboot <<<"
+echo "  >>> Run setup.sh next, then reboot: sudo reboot <<<"
 echo ""
