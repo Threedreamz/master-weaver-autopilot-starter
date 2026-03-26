@@ -10,6 +10,7 @@ Type=simple
 User=pi
 Group=pi
 WorkingDirectory=/opt/autopilot/python/pi-firmware
+ExecStartPre=/bin/bash -c 'test -f dist/server.js || pnpm build'
 ExecStart=/usr/bin/node dist/server.js
 Restart=always
 RestartSec=5

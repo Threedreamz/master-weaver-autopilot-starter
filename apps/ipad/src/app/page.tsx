@@ -81,7 +81,7 @@ export default function HomePage() {
     setError(null);
     setLoading(true);
     try {
-      await api.selectProfile(selectedProfile.id);
+      await api.selectProfile(selectedProfile.name);
       await api.startScan({
         profileId: selectedProfile.id,
         partId: `scan-${Date.now()}`,

@@ -200,7 +200,7 @@ export default function ProfilesPage() {
 
   const handleSelectActive = async (profile: ScanProfile) => {
     try {
-      await api.selectProfile(profile.id);
+      await api.selectProfile(profile.name);
       setActiveProfileId(profile.id);
     } catch (e) {
       setError(

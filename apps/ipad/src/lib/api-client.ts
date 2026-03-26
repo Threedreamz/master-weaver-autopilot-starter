@@ -14,12 +14,12 @@ const CT_PC_BASE =
     ? `${window.location.protocol}//${window.location.hostname}:4802`
     : "http://localhost:4802");
 
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
+async function request<T = any>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${CT_PC_BASE}${path}`, {
-    ...init,
+    ...options,
     headers: {
       "Content-Type": "application/json",
-      ...init?.headers,
+      ...options?.headers,
     },
   });
   if (!res.ok) {
@@ -28,85 +28,120 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return res.json() as Promise<T>;
 }
 
-/** Get current system status from CT-PC */
-export function getStatus(): Promise<SystemStatus> {
-  return request("/api/status");
+// ---------------------------------------------------------------------------
+// snake_case → camelCase conversion for Python API responses
+// ---------------------------------------------------------------------------
+function snakeToCamel(obj: any): any {
+  if (Array.isArray(obj)) return obj.map(snakeToCamel);
+  if (obj !== null && typeof obj === "object") {
+    return Object.fromEntries(
+      Object.entries(obj).map(([k, v]) => [
+        k.replace(/_([a-z])/g, (_, c: string) => c.toUpperCase()),
+        snakeToCamel(v),
+      ])
+    );
+  }
+  return obj;
 }
+
+// ---------------------------------------------------------------------------
+// System
+// ---------------------------------------------------------------------------
+
+/** Get current system status from CT-PC */
+export async function getStatus(): Promise<SystemStatus> {
+  return request<SystemStatus>("/api/status");
+}
+
+// ---------------------------------------------------------------------------
+// Profiles
+// ---------------------------------------------------------------------------
 
 /** List all scan profiles */
-export function getProfiles(): Promise<ScanProfile[]> {
-  return request("/api/profiles");
+export async function getProfiles(): Promise<ScanProfile[]> {
+  const res = await request<{ profiles: ScanProfile[] }>("/api/profiles");
+  return res.profiles;
 }
 
-/** Get a single profile */
-export function getProfile(id: string): Promise<ScanProfile> {
-  return request(`/api/profiles/${id}`);
+/** Get a single profile (returned unwrapped by Python) */
+export async function getProfile(id: string): Promise<ScanProfile> {
+  return request<ScanProfile>(`/api/profiles/${id}`);
 }
 
-/** Create a new scan profile */
-export function createProfile(
+/** Create a new scan profile (returned unwrapped by Python) */
+export async function createProfile(
   profile: Omit<ScanProfile, "id" | "createdAt" | "updatedAt">
 ): Promise<ScanProfile> {
-  return request("/api/profiles", {
+  return request<ScanProfile>("/api/profiles", {
     method: "POST",
     body: JSON.stringify(profile),
   });
 }
 
-/** Update an existing profile */
-export function updateProfile(
+/** Update an existing profile (returned unwrapped by Python) */
+export async function updateProfile(
   id: string,
   profile: Partial<ScanProfile>
 ): Promise<ScanProfile> {
-  return request(`/api/profiles/${id}`, {
+  return request<ScanProfile>(`/api/profiles/${id}`, {
     method: "PATCH",
     body: JSON.stringify(profile),
   });
 }
 
 /** Delete a profile */
-export function deleteProfile(id: string): Promise<void> {
-  return request(`/api/profiles/${id}`, { method: "DELETE" });
+export async function deleteProfile(id: string): Promise<{ deleted: string }> {
+  return request<{ deleted: string }>(`/api/profiles/${id}`, { method: "DELETE" });
 }
 
 /** Select a profile on the CT-PC */
-export function selectProfile(id: string): Promise<{ ok: boolean }> {
-  return request("/api/scan/select-profile", {
+export async function selectProfile(name: string): Promise<{ selected: string; success: boolean }> {
+  return request<{ selected: string; success: boolean }>(`/api/profiles/${name}/select`, {
     method: "POST",
-    body: JSON.stringify({ profileId: id }),
   });
 }
 
+// ---------------------------------------------------------------------------
+// Scans
+// ---------------------------------------------------------------------------
+
 /** Start a new scan job */
-export function startScan(job: ScanJobRequest): Promise<ScanResult> {
-  return request("/api/scan/start", {
+export async function startScan(job: ScanJobRequest): Promise<ScanResult> {
+  const res = await request<{ scan: ScanResult }>("/api/scan/start", {
     method: "POST",
     body: JSON.stringify(job),
   });
+  return res.scan;
 }
 
 /** Emergency stop the current scan */
-export function stopScan(): Promise<{ ok: boolean }> {
-  return request("/api/scan/stop", { method: "POST" });
+export async function stopScan(): Promise<{ stopped: string[]; count: number }> {
+  return request<{ stopped: string[]; count: number }>("/api/scan/stop", { method: "POST" });
 }
 
-/** Export STL from the latest scan */
-export function exportStl(jobId: string): Promise<{ stlPath: string }> {
-  return request(`/api/scan/${jobId}/export-stl`, { method: "POST" });
+/** Export STL via the controller save sequence */
+export async function exportStl(): Promise<{ success: boolean; message: string }> {
+  return request<{ success: boolean; message: string }>("/api/stl/export", { method: "POST" });
 }
 
 /** Get scan history */
-export function getScans(): Promise<ScanResult[]> {
-  return request("/api/scans");
+export async function getScans(): Promise<ScanResult[]> {
+  const res = await request<{ scans: ScanResult[]; total: number }>("/api/scans");
+  return res.scans;
 }
 
 /** Get a single scan result */
-export function getScan(jobId: string): Promise<ScanResult> {
-  return request(`/api/scans/${jobId}`);
+export async function getScan(jobId: string): Promise<ScanResult> {
+  const res = await request<{ scan: ScanResult }>(`/api/scans/${jobId}`);
+  return res.scan;
 }
 
+// ---------------------------------------------------------------------------
+// Analysis / Soll-Ist
+// ---------------------------------------------------------------------------
+
 /** Upload reference STL for Soll-Ist comparison */
-export async function uploadReferenceStl(file: File): Promise<{ path: string }> {
+export async function uploadReferenceStl(file: File): Promise<{ path: string; filename: string; size: number }> {
   const formData = new FormData();
   formData.append("file", file);
   const res = await fetch(`${CT_PC_BASE}/api/analysis/upload-reference`, {
@@ -118,62 +153,76 @@ export async function uploadReferenceStl(file: File): Promise<{ path: string }> 
 }
 
 /** Run Soll-Ist analysis */
-export function runAnalysis(
-  scanJobId: string,
+export async function runAnalysis(
+  scanStlPath: string,
   referenceStlPath: string,
   toleranceMm: number
-): Promise<ScanResult> {
-  return request("/api/analysis/compare", {
+): Promise<Record<string, any>> {
+  const res = await request<{ report: Record<string, any> }>("/api/analysis/compare", {
     method: "POST",
-    body: JSON.stringify({ scanJobId, referenceStlPath, toleranceMm }),
+    body: JSON.stringify({ scanStlPath, referenceStlPath, toleranceMm }),
   });
+  return res.report;
 }
 
-// ─── Time Tracking (Zeiterfassung) ───
+// ---------------------------------------------------------------------------
+// Time Tracking (Zeiterfassung) — Workers
+// ---------------------------------------------------------------------------
 
 /** List all workers */
-export function getWorkers(): Promise<Worker[]> {
-  return request("/api/workers");
+export async function getWorkers(): Promise<Worker[]> {
+  const res = await request<{ workers: any[]; count: number }>("/api/workers");
+  return res.workers.map(snakeToCamel) as Worker[];
 }
 
 /** Add a new worker */
-export function addWorker(name: string): Promise<Worker> {
-  return request("/api/workers", {
+export async function addWorker(name: string): Promise<Worker> {
+  const res = await request<{ worker: any }>("/api/workers", {
     method: "POST",
     body: JSON.stringify({ name }),
   });
+  return snakeToCamel(res.worker) as Worker;
 }
 
 /** Remove a worker */
-export function removeWorker(id: string): Promise<void> {
-  return request(`/api/workers/${id}`, { method: "DELETE" });
+export async function removeWorker(id: string): Promise<{ deleted: string }> {
+  return request<{ deleted: string }>(`/api/workers/${id}`, { method: "DELETE" });
 }
 
 /** Login a worker (auto-logouts any currently active worker) */
-export function loginWorker(id: string): Promise<TimeLog> {
-  return request(`/api/workers/${id}/login`, { method: "POST" });
+export async function loginWorker(id: string): Promise<TimeLog> {
+  const res = await request<{ log: any }>(`/api/workers/${id}/login`, { method: "POST" });
+  return snakeToCamel(res.log) as TimeLog;
 }
 
 /** Logout a worker */
-export function logoutWorker(id: string): Promise<TimeLog> {
-  return request(`/api/workers/${id}/logout`, { method: "POST" });
+export async function logoutWorker(id: string): Promise<TimeLog> {
+  const res = await request<{ log: any }>(`/api/workers/${id}/logout`, { method: "POST" });
+  return snakeToCamel(res.log) as TimeLog;
 }
 
 /** Get the currently active worker (or null) */
-export function getActiveWorker(): Promise<Worker | null> {
-  return request("/api/workers/active");
+export async function getActiveWorker(): Promise<Worker | null> {
+  const res = await request<{ worker: any | null }>("/api/workers/active");
+  return res.worker ? (snakeToCamel(res.worker) as Worker) : null;
 }
 
+// ---------------------------------------------------------------------------
+// Time Tracking — Logs & Stats
+// ---------------------------------------------------------------------------
+
 /** Get time logs, optionally filtered by date and/or workerId */
-export function getTimeLogs(date?: string, workerId?: string): Promise<TimeLog[]> {
+export async function getTimeLogs(date?: string, workerId?: string): Promise<TimeLog[]> {
   const params = new URLSearchParams();
   if (date) params.set("date", date);
-  if (workerId) params.set("workerId", workerId);
+  if (workerId) params.set("worker_id", workerId);
   const qs = params.toString();
-  return request(`/api/timelogs${qs ? `?${qs}` : ""}`);
+  const res = await request<{ logs: any[]; count: number }>(`/api/timelogs${qs ? `?${qs}` : ""}`);
+  return res.logs.map(snakeToCamel) as TimeLog[];
 }
 
 /** Get today's time tracking statistics */
-export function getTimeStats(): Promise<TimeTrackingStats> {
-  return request("/api/timelogs/stats");
+export async function getTimeStats(): Promise<TimeTrackingStats> {
+  const res = await request<{ stats: any }>("/api/timelogs/stats");
+  return snakeToCamel(res.stats) as TimeTrackingStats;
 }

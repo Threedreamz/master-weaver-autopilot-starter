@@ -60,16 +60,16 @@ export default function AnalysisPage() {
   };
 
   const handleAnalyze = async () => {
-    if (!selectedScan || !referencePath) return;
+    if (!selectedScan?.stlPath || !referencePath) return;
     setRunning(true);
     setError(null);
     try {
       const result = await api.runAnalysis(
-        selectedScan.jobId,
+        selectedScan.stlPath,
         referencePath,
         tolerance
       );
-      setReport(result.deviationReport ?? null);
+      setReport(result as unknown as DeviationReport);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Analyse fehlgeschlagen");
     } finally {

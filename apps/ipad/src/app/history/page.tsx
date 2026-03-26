@@ -83,12 +83,6 @@ function formatDuration(startedAt: string, completedAt?: string): string {
 type FilterState = "all" | "done" | "error" | "running";
 type FilterResult = "all" | "io" | "nio";
 
-const CT_PC_BASE =
-  process.env.NEXT_PUBLIC_CT_PC_URL ||
-  (typeof window !== "undefined"
-    ? `${window.location.protocol}//${window.location.hostname}:4802`
-    : "http://localhost:4802");
-
 export default function HistoryPage() {
   const [scans, setScans] = useState<ScanResult[]>([]);
   const [loading, setLoading] = useState(true);
@@ -121,11 +115,15 @@ export default function HistoryPage() {
     setRefreshing(false);
   };
 
-  const handleDownloadStl = (e: React.MouseEvent, scan: ScanResult) => {
+  const handleDownloadStl = async (e: React.MouseEvent, scan: ScanResult) => {
     e.preventDefault();
     e.stopPropagation();
     if (scan.stlPath) {
-      window.open(`${CT_PC_BASE}/api/scan/${scan.jobId}/export-stl`, "_blank");
+      try {
+        await api.exportStl();
+      } catch {
+        // silently fail — STL export triggers on the CT-PC side
+      }
     }
   };
 

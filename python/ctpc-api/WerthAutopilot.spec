@@ -146,6 +146,19 @@ a = Analysis(
         'src.timetracking',
         'src.timetracking.models',
         'src.timetracking.tracker',
+        # --- Scipy / STL analysis ---
+        'scipy',
+        'scipy.spatial',
+        'scipy.spatial._kdtree',
+        'numpy_stl',
+        'stl',
+        'stl.mesh',
+        # --- Network discovery ---
+        'zeroconf',
+        'zeroconf._utils',
+        # --- HTTP client ---
+        'httpx',
+        'httpx._transports',
     ],
     hookspath=[],
     hooksconfig={},
@@ -153,7 +166,6 @@ a = Analysis(
     excludes=[
         'tkinter',
         'matplotlib',
-        'scipy',
         'pandas',
         'IPython',
         'notebook',
