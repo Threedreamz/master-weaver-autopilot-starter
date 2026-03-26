@@ -45,6 +45,11 @@ async def lifespan(app: FastAPI):
 
     app.state.controller = controller
 
+    # ScanMachine support — no active machine at startup; created on /scan/start
+    app.state.scan_machine = None
+    app.state.scan_data_path = Path(__file__).parent.parent / "data"
+    logger.info("ScanMachine support initialised (data path: %s)", app.state.scan_data_path)
+
     # Start network discovery scanner
     scanner = NetworkScanner(cache_dir=Path(__file__).parent.parent)
     app.state.network_scanner = scanner
