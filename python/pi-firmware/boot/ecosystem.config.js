@@ -1,13 +1,6 @@
 module.exports = {
   apps: [
-    {
-      name: "camera",
-      script: "dist/server.js",
-      cwd: "/opt/autopilot/python/pi-firmware",
-      env: { PORT: 4801, NODE_ENV: "production" },
-      restart_delay: 3000,
-      max_restarts: 10,
-    },
+    // Camera server runs on Kamera-Pi (autopilot-cam.local:4811), not here
     {
       name: "ipad-app",
       script: "server.js",

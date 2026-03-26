@@ -165,9 +165,21 @@ EOF
   systemctl enable hostapd
 fi
 
+# ─── Step 4b: Ethernet direct connection to Windows PC ────────────────
+echo ""
+echo "[4b/9] Configuring Ethernet bridge to PC..."
+# Configure eth0 with static IP for direct PC connection
+# Haupt-Pi = 192.168.5.1, Windows PC = 192.168.5.2
+nmcli con delete PC-Direct 2>/dev/null || true
+nmcli con add type ethernet ifname eth0 con-name PC-Direct \
+    ipv4.method manual ipv4.addresses 192.168.5.1/24 \
+    autoconnect yes
+
+echo "Ethernet bridge configured: Pi=192.168.5.1, PC should be 192.168.5.2"
+
 # ─── Step 5: dnsmasq configuration ──────────────────────────────────
 echo ""
-echo "[5/8] Configuring dnsmasq (DHCP: ${DHCP_RANGE_START}–${DHCP_RANGE_END})..."
+echo "[5/9] Configuring dnsmasq (DHCP: ${DHCP_RANGE_START}–${DHCP_RANGE_END})..."
 # Back up original dnsmasq config
 if [ -f /etc/dnsmasq.conf ] && [ ! -f /etc/dnsmasq.conf.orig ]; then
   mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
@@ -210,14 +222,14 @@ fi
 
 # ─── Step 6: Avahi / mDNS ───────────────────────────────────────────
 echo ""
-echo "[6/8] Configuring mDNS (Avahi) for AP network..."
+echo "[6/9] Configuring mDNS (Avahi) for AP network..."
 cat > /etc/avahi/avahi-daemon.conf << 'EOF'
 [server]
 host-name=autopilot-pi
 domain-name=local
 use-ipv4=yes
 use-ipv6=yes
-allow-interfaces=wlan0
+allow-interfaces=wlan0,eth0
 
 [wide-area]
 enable-wide-area=no
@@ -242,13 +254,13 @@ EOF
 
 # ─── Step 7: Enable services ────────────────────────────────────────
 echo ""
-echo "[7/8] Enabling services for next boot..."
+echo "[7/9] Enabling services for next boot..."
 systemctl enable dnsmasq
 systemctl enable avahi-daemon
 
 # ─── Step 8: Firewall + network ─────────────────────────────────────
 echo ""
-echo "[8/8] Configuring firewall and network..."
+echo "[8/9] Configuring firewall and network..."
 if command -v ufw &>/dev/null; then
   ufw allow 80/tcp comment "Nginx HTTP"
   ufw allow 4800/tcp comment "Autopilot iPad app"
@@ -277,6 +289,7 @@ echo "  Pi IP:         ${AP_IP}"
 echo "  DHCP range:    ${DHCP_RANGE_START} – ${DHCP_RANGE_END}"
 echo "  Internet:      NONE (offline local network)"
 echo ""
+echo "  Ethernet:      eth0 → 192.168.5.1 (PC at 192.168.5.2)"
 echo "  mDNS:          autopilot-pi.local"
 echo "  Services:      Nginx on port 80 (after setup.sh)"
 echo ""

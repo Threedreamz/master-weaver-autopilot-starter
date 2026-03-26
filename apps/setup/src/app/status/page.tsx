@@ -3,26 +3,41 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-interface PiStatus {
-  cameras: number;
-  cpuPercent: number;
-  ramPercent: number;
-  temperature: number;
-  hostname: string;
-}
-
-interface CtpcStatus {
-  connected: boolean;
+interface DeviceInfo {
   ip: string;
-  version: string;
+  port: number;
   hostname: string;
+  version?: string;
+  lastSeen: string;
+  meta?: Record<string, unknown>;
 }
 
 interface StatusData {
-  pi: PiStatus;
-  ctpc: CtpcStatus;
+  /** Haupt-Pi self-status */
+  hauptPi: {
+    cpuPercent: number;
+    ramPercent: number;
+    temperature: number;
+    uptime: string;
+    hostname: string;
+  };
+  /** Kamera-Pi from discovery */
+  cameraPi: DeviceInfo | null;
+  /** Windows CT-PC from discovery */
+  ctpc: DeviceInfo | null;
+  /** iPad heartbeat count */
   clients: number;
   wifiSsid: string;
+}
+
+function timeSince(iso: string): string {
+  const seconds = Math.floor(
+    (Date.now() - new Date(iso).getTime()) / 1000
+  );
+  if (seconds < 60) return `vor ${seconds}s`;
+  if (seconds < 3600) return `vor ${Math.floor(seconds / 60)}m`;
+  if (seconds < 86400) return `vor ${Math.floor(seconds / 3600)}h`;
+  return `vor ${Math.floor(seconds / 86400)}d`;
 }
 
 function StatusCard({
@@ -58,37 +73,49 @@ function StatusCard({
   );
 }
 
+function Row({ label, value, className }: { label: string; value: React.ReactNode; className?: string }) {
+  return (
+    <div className="flex justify-between">
+      <span>{label}</span>
+      <span className={className ?? "text-gray-300"}>{value}</span>
+    </div>
+  );
+}
+
+/** Is a device considered online? (seen within last 60 seconds) */
+function isOnline(device: DeviceInfo | null): boolean {
+  if (!device) return false;
+  const age = Date.now() - new Date(device.lastSeen).getTime();
+  return age < 60_000;
+}
+
 export default function StatusPage() {
   const [data, setData] = useState<StatusData | null>(null);
 
   useEffect(() => {
     async function fetchStatus() {
       try {
-        const [wifiRes, ctpcRes] = await Promise.all([
+        const [wifiRes, discoveryRes] = await Promise.all([
           fetch("/api/wifi/status"),
           fetch("/api/discovery"),
         ]);
         const wifi = await wifiRes.json();
-        const ctpc = await ctpcRes.json();
+        const discovery = await discoveryRes.json();
+
+        const devices = discovery.devices ?? {};
 
         setData({
-          pi: {
-            cameras: 2,
+          hauptPi: {
             cpuPercent: 0,
             ramPercent: 0,
             temperature: 0,
+            uptime: "",
             hostname: wifi.hostname ?? "autopilot",
           },
-          ctpc: ctpc.registered
-            ? {
-                connected: true,
-                ip: ctpc.ip,
-                version: ctpc.version,
-                hostname: ctpc.hostname,
-              }
-            : { connected: false, ip: "", version: "", hostname: "" },
+          cameraPi: devices.camera ?? null,
+          ctpc: devices.ctpc ?? null,
           clients: 0,
-          wifiSsid: wifi.ssid ?? "—",
+          wifiSsid: wifi.ssid ?? "\u2014",
         });
       } catch {
         // Status fetch failed
@@ -100,82 +127,96 @@ export default function StatusPage() {
     return () => clearInterval(interval);
   }, []);
 
+  const cameraPiOnline = isOnline(data?.cameraPi ?? null);
+  const ctpcOnline = isOnline(data?.ctpc ?? null);
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold">Systemstatus</h1>
         <p className="mt-1 text-sm text-gray-400">
-          Aktualisiert alle 5 Sekunden
+          4 Geräte &middot; Aktualisiert alle 5 Sekunden
         </p>
       </div>
 
       <div className="space-y-4">
-        <StatusCard
-          title="Raspberry Pi"
-          status={data ? "ok" : "warning"}
-        >
-          <div className="flex justify-between">
-            <span>Kameras</span>
-            <span className="text-gray-300">
-              {data?.pi.cameras ?? "—"} erkannt
-            </span>
-          </div>
-          <div className="flex justify-between">
-            <span>CPU</span>
-            <span className="text-gray-300">
-              {data?.pi.cpuPercent ?? "—"}%
-            </span>
-          </div>
-          <div className="flex justify-between">
-            <span>RAM</span>
-            <span className="text-gray-300">
-              {data?.pi.ramPercent ?? "—"}%
-            </span>
-          </div>
-          <div className="flex justify-between">
-            <span>WLAN</span>
-            <span className="text-gray-300">{data?.wifiSsid ?? "—"}</span>
-          </div>
+        {/* --- Haupt-Pi (self) --- */}
+        <StatusCard title="Haupt-Pi" status={data ? "ok" : "warning"}>
+          <Row label="Hostname" value={data?.hauptPi.hostname ?? "\u2014"} />
+          <Row label="CPU" value={`${data?.hauptPi.cpuPercent ?? "\u2014"}%`} />
+          <Row label="RAM" value={`${data?.hauptPi.ramPercent ?? "\u2014"}%`} />
+          <Row label="WLAN" value={data?.wifiSsid ?? "\u2014"} />
+          <Row label="Status" value="Immer online" className="text-green-400" />
         </StatusCard>
 
+        {/* --- Kamera-Pi --- */}
         <StatusCard
-          title="CT-PC (Windows)"
-          status={data?.ctpc.connected ? "ok" : "error"}
+          title="Kamera-Pi"
+          status={cameraPiOnline ? "ok" : data?.cameraPi ? "warning" : "error"}
         >
-          <div className="flex justify-between">
-            <span>Status</span>
-            <span
-              className={
-                data?.ctpc.connected ? "text-green-400" : "text-red-400"
-              }
-            >
-              {data?.ctpc.connected ? "Verbunden" : "Nicht verbunden"}
-            </span>
-          </div>
-          {data?.ctpc.connected && (
+          <Row
+            label="Status"
+            value={cameraPiOnline ? "Online" : "Nicht verbunden"}
+            className={cameraPiOnline ? "text-green-400" : "text-red-400"}
+          />
+          {data?.cameraPi && (
             <>
-              <div className="flex justify-between">
-                <span>IP</span>
-                <span className="font-mono text-gray-300">
-                  {data.ctpc.ip}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Version</span>
-                <span className="text-gray-300">{data.ctpc.version}</span>
-              </div>
+              <Row
+                label="IP"
+                value={data.cameraPi.ip}
+                className="font-mono text-gray-300"
+              />
+              <Row label="Port" value={data.cameraPi.port} />
+              <Row label="Hostname" value={data.cameraPi.hostname} />
+              {data.cameraPi.meta?.cameraCount != null && (
+                <Row
+                  label="Kameras"
+                  value={`${data.cameraPi.meta.cameraCount} erkannt`}
+                />
+              )}
+              <Row
+                label="Zuletzt gesehen"
+                value={timeSince(data.cameraPi.lastSeen)}
+              />
             </>
           )}
         </StatusCard>
 
+        {/* --- Windows CT-PC --- */}
+        <StatusCard
+          title="Windows CT-PC"
+          status={ctpcOnline ? "ok" : data?.ctpc ? "warning" : "error"}
+        >
+          <Row
+            label="Status"
+            value={ctpcOnline ? "Verbunden" : "Nicht verbunden"}
+            className={ctpcOnline ? "text-green-400" : "text-red-400"}
+          />
+          {data?.ctpc && (
+            <>
+              <Row
+                label="IP"
+                value={data.ctpc.ip}
+                className="font-mono text-gray-300"
+              />
+              <Row label="Hostname" value={data.ctpc.hostname} />
+              {data.ctpc.version && (
+                <Row label="WinWerth Version" value={data.ctpc.version} />
+              )}
+              <Row
+                label="Zuletzt gesehen"
+                value={timeSince(data.ctpc.lastSeen)}
+              />
+            </>
+          )}
+        </StatusCard>
+
+        {/* --- iPad Clients --- */}
         <StatusCard
           title="iPad Clients"
           status={data && data.clients > 0 ? "ok" : "warning"}
         >
-          <div className="flex justify-between">
-            <span>Verbundene iPads</span>
-            <span className="text-gray-300">{data?.clients ?? 0}</span>
-          </div>
+          <Row label="Verbundene iPads" value={data?.clients ?? 0} />
         </StatusCard>
       </div>
 

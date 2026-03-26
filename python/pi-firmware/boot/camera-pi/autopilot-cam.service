@@ -1,0 +1,32 @@
+[Unit]
+Description=AutoPilot Kamera-Server (Kamera-Pi im CT-Scanner)
+Documentation=https://github.com/Threedreamz/master-weaver-autopilot-starter
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/opt/autopilot-cam/repo/python/pi-firmware
+ExecStart=/usr/bin/node dist/server.js
+Restart=always
+RestartSec=5
+
+# Umgebungsvariablen
+Environment=NODE_ENV=production
+Environment=PORT=4811
+Environment=HOST=0.0.0.0
+Environment=LOG_LEVEL=info
+
+# Ressourcen-Limits (Kamera-Pi braucht weniger als Haupt-Pi)
+MemoryMax=512M
+CPUQuota=80%
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=autopilot-cam
+
+[Install]
+WantedBy=multi-user.target
