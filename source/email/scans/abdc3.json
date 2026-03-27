@@ -1,0 +1,14 @@
+{
+  "project_name": "CT-Sensorblock",
+  "job_id": "10293",
+  "employee_name": "Jonas Weber",
+  "file_name": "Scan_CT_Block.vx3",
+  "file_format": "VX3",
+  "file_size": "2.3 GB",
+  "completed_at": "2025-11-02 14:35",
+  "scan_duration": "42 min",
+  "file_path": "D:\\Scans\\CT\\10293\\Scan_CT_Block.vx3",
+  "unc_share": "\\\\SERVER01\\Scans\\CT\\10293\\Scan_CT_Block.vx3",
+  "download_url": "https://portal.ies.de/download/abcd1234",
+  "expires_at": "2025-11-09 23:59"
+}

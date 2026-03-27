@@ -1,0 +1,4 @@
+[{'index': 0, 'automation_id': '', 'name': 'Seite nach links', 'class_name': '', 'control_type': 'Button', 'rect': (3130, 246, 3195, 250)}, {'index': 1, 'automation_id': '', 'name': 'Seite nach rechts', 'class_name': '', 'control_type': 'Button', 'rect': (3206, 246, 3219, 250)}, {'index':
+ 2, 'automation_id': '', 'name': 'Seite nach links', 'class_name': '', 'control_type': 'Button', 'rect': (3130, 364, 3131, 368)}, {'index': 3, 'automation_id': '', 'name': 'Seite nach rechts', 'class_name': '', 'control_type': 'Button', 'rect': (3142, 364, 3219, 368)}, {'index': 4, 'autom
+ation_id': '', 'name': 'Seite nach rechts', 'class_name': '', 'control_type': 'Button', 'rect': (3141, 490, 3219, 494)}, {'index': 5, 'automation_id': '3573', 'name': 'Schließen', 'class_name': 'Button', 'control_type': 'Button', 'rect': (3198, 563, 3288, 588)}, {'index': 6, 'automation_i
+d': '', 'name': 'Schließen', 'class_name': '', 'control_type': 'Button', 'rect': (3442, 158, 3476, 188)}]

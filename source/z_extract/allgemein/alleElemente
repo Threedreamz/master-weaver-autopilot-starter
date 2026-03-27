@@ -1,0 +1,366 @@
+- Pane | DaisyBar | ID:
+  - Static | C:\Werth\User\DMIS\new program.dms | ID: 1254
+  - Static | C:\Werth\User\DMIS\new program.dms | ID: 3180
+  - Static |  | ID: 3181
+  - Static |  | ID: 1255
+  - Static | Datei: | ID: 1355
+  - Button | Play | ID: 1251
+  - Button | Pause | ID: 1269
+  - Button | Stop | ID: 1270
+  - Button | Edit | ID: 1536
+  - Button | RunSelection | ID: 1537
+  - Button | RunSelectionOffline | ID: 1538
+  - Button | RunStepIno | ID: 2863
+- Dialog | Werth 3D-Grafik - [] | ID:
+  - Pane | 3D-Ansicht | ID: 61310
+    - Pane |  | ID:
+  - Pane |  | ID: 59393
+  - Pane |  | ID: 59419
+    - Pane |  | ID: 59392
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+    - Pane |  | ID: 59392
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+    - Pane |  | ID: 59392
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+    - Pane |  | ID: 59392
+      - Button |  | ID:
+      - Custom |  | ID:
+    - Pane |  | ID: 59392
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+    - Pane |  | ID: 59392
+      - Edit |  | ID: 3305
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - ComboBox |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+    - Pane |  | ID: 59392
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+    - Pane |  | ID: 59392
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+      - Button |  | ID:
+  - Pane |  | ID:
+  - TitleBar |  | ID:
+    - Menu | Systemmenü | ID: MenuBar
+      - MenuItem | Systemmenü | ID:
+    - Button | Wiederherstellen | ID:
+    - Button | Maximieren | ID:
+    - Button | Schließen | ID:
+  - Menu | Anwendungsmenü | ID: MenuBar
+    - MenuItem | Datei | ID:
+    - MenuItem | CAD Bearbeiten | ID:
+    - MenuItem | Abweichungsdarstellung | ID:
+    - MenuItem | Selektion | ID:
+    - MenuItem | Darstellung | ID:
+    - MenuItem | Einstellungen | ID:
+    - MenuItem | Ansichtsfenster | ID:
+    - MenuItem | ? | ID:
+- Button |  | ID: 32952
+- Button |  | ID: 32803
+- Button |  | ID: 32968
+- Button |  | ID: 33260
+- Button |  | ID: 34046
+- Button |  | ID: 33203
+- Button |  | ID: 32961
+- Button |  | ID: 32960
+- Button |  | ID: 32791
+- Pane | Arbeitsbereich | ID: 59648
+  - Dialog | ] - [new program.dms] - [ | ID: 65280
+    - Pane |  | ID: 59648
+      - Pane | Grafikfenster | ID: 1299
+- StatusBar |  | ID: 59393
+  - Static |  | ID:
+- Button |  | ID: 32956
+- Button |  | ID: 32957
+- Button |  | ID: 33120
+- Button |  | ID: 33222
+- Button |  | ID: 32802
+- Toolbar |  | ID: 59392
+  - Button |  | ID:
+  - Button |  | ID:
+  - Button | Handeingabe | ID:
+  - Button |  | ID:
+- Toolbar |  | ID: 59392
+  - Button |  | ID:
+  - Button |  | ID:
+  - Button |  | ID:
+  - Button |  | ID:
+- Pane | TreeOptionBar | ID: 59425
+  - Button | Beladen / Entladen | ID: 2581
+  - Button | Röhre an | ID: 2273
+  - Button | << | ID: 2671
+  - ComboBox |  | ID: 3360
+    - Static |  | ID:
+    - Button | Öffnen | ID: DropDown
+  - Slider |  | ID: 2610
+    - Button | Seite nach links | ID:
+    - Thumb | Position | ID:
+  - Edit |  | ID: 2613
+  - Static | 0 | ID: 2597
+  - Slider | 0 | ID: 2606
+    - Button | Seite nach links | ID:
+    - Thumb | Position | ID:
+    - Button | Seite nach rechts | ID:
+  - Edit |  | ID: 2607
+  - Static | 0 | ID: 2596
+  - Slider | 0 | ID: 3359
+    - Button | Seite nach links | ID:
+    - Thumb | Position | ID:
+    - Button | Seite nach rechts | ID:
+  - Edit |  | ID: 2598
+  - Static | 0.0 | ID: 2673
+  - CheckBox | Grauwerte skalieren | ID: 2602
+  - Button | ... | ID: 2778
+  - Slider |  | ID: 2614
+    - Button | Seite nach links | ID:
+    - Thumb | Position | ID:
+    - Button | Seite nach rechts | ID:
+  - Static | 150 | ID: 2615
+  - Slider | 150 | ID: 2604
+    - Thumb | Position | ID:
+    - Button | Seite nach rechts | ID:
+  - Edit |  | ID: 2616
+  - CheckBox | schnelles Livebild | ID: 2779
+  - Slider |  | ID: 3058
+    - Thumb | Position | ID:
+    - Button | Seite nach rechts | ID:
+  - Static | 0 | ID: 3059
+  - Slider | 0 | ID: 2605
+    - Button | Seite nach links | ID:
+    - Thumb | Position | ID:
+    - Button | Seite nach rechts | ID:
+  - Edit |  | ID: 2617
+  - Button | Auto | ID: 3399
+  - Button | Hell- / Dunkelabgleich | ID: 2590
+  - GroupBox | Aktion bei | ID:
+  - Static | Einlernen | ID:
+  - Static | Abarbeitung | ID:
+  - ComboBox | Abarbeitung | ID: 3490
+    - Static | Abarbeitung | ID:
+    - Button | Öffnen | ID: DropDown
+  - ComboBox |  | ID: 3491
+    - Static |  | ID:
+    - Button | Öffnen | ID: DropDown
+  - Static | Röhre aus | ID: 1633
+  - Static | Röhrenbetriebsstatus OK | ID: 2672
+  - Static | 0 | ID: 2599
+  - Static | 0 | ID: 2600
+  - Static | 74.33 | ID: 2281
+  - Static | 52.30 | ID: 2282
+  - Edit | 52.30 | ID: 2568
+  - Button | Punkt 1 | ID: 2571
+  - Edit |  | ID: 2569
+  - Button | Punkt 2 | ID: 2588
+  - CheckBox | aktiv | ID: 2612
+  - Edit |  | ID: 2624
+  - Button | Übersicht | ID: 2625
+  - CheckBox | aktiv | ID: 2666
+  - Edit |  | ID: 2570
+  - Button | Mittelpunkt | ID: 2572
+  - ComboBox |  | ID: 2585
+    - Static |  | ID:
+    - Button | Öffnen | ID: DropDown
+  - CheckBox | On the Fly | ID: 3047
+  - CheckBox | Aufwärmphase | ID: 2573
+  - CheckBox | Abschnittstomografie | ID: 2575
+  - Button | Driftkorrektur ... | ID: 2786
+  - Static | Inaktiv | ID: 3212
+  - CheckBox | aktiv | ID: 2580
+  - Edit |  | ID: 2578
+  - Button | ... | ID: 2579
+  - ComboBox |  | ID: 3100
+    - Static |  | ID:
+    - Button | Öffnen | ID: DropDown
+  - Button | ... | ID: 2589
+  - RadioButton | Minimal | ID: 3019
+  - RadioButton | Automatisch | ID: 3020
+  - Button | + | ID: 2593
+  - Edit |  | ID: 2618
+  - Edit |  | ID: 2620
+  - Button | - | ID: 2594
+  - Edit |  | ID: 2619
+  - Edit |  | ID: 2621
+  - Button |  | ID: 2670
+  - Button |  | ID: 2591
+  - Button |  | ID: 2592
+  - Edit |  | ID: 2674
+  - Button | Stop | ID: 2667
+  - ComboBox |  | ID: 2761
+    - Static |  | ID:
+    - Button | Öffnen | ID: DropDown
+  - ComboBox |  | ID: 2762
+    - Static |  | ID:
+    - Button | Öffnen | ID: DropDown
+  - CheckBox | warte auf Objekt-Positionierung | ID: 2763
+  - ComboBox |  | ID: 2587
+    - Static |  | ID:
+    - Button | Öffnen | ID: DropDown
+  - Edit |  | ID: 2608
+  - Button | ... | ID: 2595
+  - CheckBox | Projektionsbilder sichern | ID: 2582
+  - CheckBox | Offline | ID: 2583
+  - Edit |  | ID: 2622
+  - Edit |  | ID: 2623
+  - Static | / | ID: 2707
+  - Static | Pfad | ID: 2704
+  - Static | h | ID: 2702
+  - Static | m | ID: 2703
+  - Static | Spannung (kV) | ID:
+  - GroupBox | Messbereichspunkte | ID: 2691
+  - GroupBox | relativer Winkel | ID: 2700
+  - GroupBox | Bildaufnahme | ID: 2701
+  - Static | ° | ID: 2709
+  - Static | X | ID: 2705
+  - Static | Y | ID: 2706
+  - Static | / | ID: 2708
+  - Static | Bilddynamik | ID:
+  - GroupBox | Status | ID:
+  - GroupBox | Positionieren | ID: 2698
+  - GroupBox | Rasterposition | ID: 2699
+  - GroupBox | Ausgabe | ID: 2697
+  - Static | Generatorstrom (µA) | ID: 2723
+  - Static | Drehschritte | ID:
+  - GroupBox | Ausschnitt-Tomografie (ROI) | ID: 2693
+  - Static | ° | ID: 1637
+  - GroupBox | Messzeitschätzung | ID: 2695
+  - GroupBox | Hell-/Dunkelkorrektur | ID: 2764
+  - Static | Generatorleistung (W) | ID: 2722
+  - Static | Integrationszeit (ms) | ID:
+  - GroupBox | Exzentrische Tomografie | ID: 2831
+  - GroupBox | Tomografieoptionen | ID: 2692
+  - GroupBox | Empirische Artefaktkorrektur | ID: 2694
+  - GroupBox | Rekonstruktion | ID: 2696
+  - Static | Interlock | ID: 2277
+  - Static | Fehler | ID: 2278
+  - Static | Vakuum | ID: 2279
+  - Static | Kühlung | ID: 2280
+  - Static | CT-Durchmesser (mm) | ID:
+  - Static | Voxelgröße (µm) | ID:
+  - Static | Automatisch berechnen | ID:
+  - GroupBox | Fokusgröße | ID: 3021
+  - GroupBox | Detektorbereich | ID: 3295
+  - Static | Bildqualität | ID:
+  - Static | Soll | ID:
+  - Static | Ist | ID:
+  - Static | Bilder ignorieren | ID:
+  - Button | ... | ID: 3539
+  - Edit | µm | ID: 2668
+  - Pane | Tree Window | ID: 1294
+    - TreeView |  | ID: 1
+      - TreeItem | DMIS-MAIN | ID:
+      - TreeItem | SAVE / COOR(DMIS-MAIN), 3 | ID:
+      - TreeItem | A-AXIS, 0.0000 | ID:
+      - TreeItem | TECOMP / ON, 0.0000115000 | ID:
+      - TreeItem | W3D / DEFLECTION, 0.1000 | ID:
+      - TreeItem | Rechnen | ID:
+      - TreeItem | ENDFIL | ID:
+    - Pane | TreeMarkerBar | ID: 2
+- Toolbar |  | ID: 59392
+  - Separator |  | ID:
+  - Separator |  | ID:
+  - Button |  | ID:
+  - Button |  | ID:
+  - Button |  | ID:
+  - Button |  | ID:
+  - Button | Punkt | ID:
+  - Button | Gerade | ID:
+  - Button | Kreis | ID:
+  - Button |  | ID:
+  - Button |  | ID:
+  - Button |  | ID:
+  - Button |  | ID:
+  - Button |  | ID:
+  - Button |  | ID:
+  - Button |  | ID:
+  - Button |  | ID:
+  - Button |  | ID:
+  - Button |  | ID:
+  - Button |  | ID:
+  - Button |  | ID:
+- Toolbar |  | ID: 59392
+  - Button | Strategie | ID:
+- Pane | OptionEditBar | ID: 59426
+  - ListBox |  | ID: 1293
+    - Header |  | ID: Header
+      - HeaderItem | Name | ID:
+      - HeaderItem | Info | ID:
+      - HeaderItem | SYM | ID:
+      - HeaderItem | Istwert | ID:
+      - HeaderItem | Sollwert | ID:
+      - HeaderItem | OTol | ID:
+      - HeaderItem | UTol | ID:
+      - HeaderItem | Abweich | ID:
+      - HeaderItem | Grafik | ID:
+      - HeaderItem | Bezeichnung | ID:
+      - HeaderItem | PMI | ID:
+    - ScrollBar | Horizontale Bildlaufleiste | ID: NonClientHorizontalScrollBar
+      - Button | Bildlauf nach links | ID: UpButton
+      - Thumb | Position | ID: ScrollbarThumb
+      - Button | Seite nach rechts | ID: DownPageButton
+      - Button | Bildlauf nach rechts | ID: DownButton
+- Button | Löschen | ID: 32949
+- Button | Papierkorb | ID: 1310
+- Button | D / R | ID: 32805
+- Button | Kreispunkt | ID: 32806
+- Button | 1. Ergebnis | ID: 32807
+- Button | Messen | ID: 1000
+- TitleBar |  | ID:
+  - Menu | Systemmenü | ID: MenuBar
+    - MenuItem | Systemmenü | ID:
+  - Button | Minimieren | ID:
+  - Button | Maximieren | ID:
+  - Button | Schließen | ID:
+- Menu | Anwendungsmenü | ID: MenuBar
+  - MenuItem | Datei | ID:
+  - MenuItem | Vorlauf | ID:
+  - MenuItem | Messablauf | ID:
+  - MenuItem | Messprotokoll | ID:
+  - MenuItem | Grafik | ID:
+  - MenuItem | Grafik3D | ID:
+  - MenuItem | Koordinatensystem | ID:
+  - MenuItem | Werkzeug | ID:
+  - MenuItem | Einstellungen | ID:
+  - MenuItem | Extra | ID:
+  - MenuItem | Hilfe | ID:

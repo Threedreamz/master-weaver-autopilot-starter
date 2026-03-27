@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Scan abgeschlossen - IES Benachrichtigung</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff;
+      color: #222222;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .title {
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: #555555;
+      margin-bottom: 25px;
+    }
+    .card {
+      border: 1px solid #dddddd;
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .file-info {
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+    .button {
+      display: inline-block;
+      background-color: #0078ff;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .button:hover {
+      background-color: #005ec2;
+    }
+    .note {
+      font-size: 12px;
+      color: #666666;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+    .link {
+      word-break: break-all;
+      color: #0066cc;
+      text-decoration: underline;
+    }
+    .footer {
+      text-align: center;
+      font-size: 11px;
+      color: #888888;
+      margin-top: 30px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="https://static.wixstatic.com/media/c858c5_90db4c2ce6de4690aba6036f7aed9feb~mv2.png/v1/crop/x_0,y_5,w_998,h_138/fill/w_388,h_54,fp_0.50_0.50,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Logo_3D_wei%C3%9F.png"
+           alt="IES Logo" width="180" style="max-width:100%;height:auto;">
+    </div>
+
+    <div class="title">Ihr Scan ist fertig ✅</div>
+    <div class="subtitle">Projekt: {{project_name}} • Auftrag: {{job_id}}</div>
+
+    <div class="card">
+      <p class="file-info"><strong>{{file_name}}</strong><br>
+        Format: {{file_format}} • Größe: {{file_size}}<br>
+        Erzeugt am {{completed_at}} • Dauer: {{scan_duration}}</p>
+
+      <div style="text-align:center;margin:20px 0;">
+        <a href="{{download_url}}" target="_blank" class="button">Jetzt herunterladen</a>
+        <div style="margin-top:8px;font-size:12px;color:#777777;">
+          Link gültig bis: {{expires_at}}
+        </div>
+      </div>
+
+      <div style="font-size:13px;margin-top:10px;">
+        <div><strong>Speicherort (Serverpfad):</strong></div>
+        <div style="border:1px dashed #cccccc;padding:8px;border-radius:5px;margin-top:5px;">
+          {{file_path}}
+        </div>
+      </div>
+
+      <div style="font-size:13px;margin-top:12px;">
+        <div><strong>UNC / Netzfreigabe:</strong></div>
+        <div style="border:1px dashed #cccccc;padding:8px;border-radius:5px;margin-top:5px;">
+          {{unc_share}}
+        </div>
+      </div>
+
+      <div class="note">
+        Falls der Button nicht funktioniert, öffnen Sie diesen Link:<br>
+        <a href="{{download_url}}" target="_blank" class="link">{{download_url}}</a>
+      </div>
+
+      <div class="note" style="margin-top:20px;">
+        <strong>Hinweise:</strong><br>
+        • Bitte verschieben oder umbenennen Sie die Datei nur, wenn keine Nachbearbeitung mehr erfolgt.<br>
+        • Teilen Sie den Link nicht außerhalb von IES. Zugriffe werden protokolliert ({{retention_note}}).<br>
+        • Bei Fragen: {{support_mail}} • Tel. {{support_phone}}
+      </div>
+    </div>
+
+    <div class="footer">
+      Gesendet von IES Scan Service • {{site_name}} • {{site_address}}<br>
+      <a href="{{web_portal_url}}" class="link">Zum Scan-Portal</a> •
+      <a href="{{view_in_browser_url}}" class="link">Im Browser ansehen</a>
+    </div>
+  </div>
+</body>
+</html>

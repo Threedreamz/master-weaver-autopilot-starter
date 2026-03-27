@@ -1,0 +1,9 @@
+{
+    "id" : "current_object",
+    "qr_code" : "0003",
+    "time" : "00:15:00",
+    "properties" : {
+        "size": "m",
+        "material" : "kunststoff"
+    }
+}

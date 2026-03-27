@@ -1,0 +1,9 @@
+[{'index': 0, 'automation_id': '', 'name': 'Startsize', 'class_name': '', 'control_type': 'ListItem'}, {'index': 1, 'automation_id': '', 'name': 'Size_110_L', 'class_name': '', 'control_type': 'ListItem'}, {'index': 2, 'automation_id'
+: '', 'name': 'Size_120_L', 'class_name': '', 'control_type': 'ListItem'}, {'index': 3, 'automation_id': '', 'name': 'Size_100_L', 'class_name': '', 'control_type': 'ListItem'}, {'index': 4, 'automation_id': '', 'name': 'Size_050_L',
+'class_name': '', 'control_type': 'ListItem'}, {'index': 5, 'automation_id': '', 'name': 'Size_025_L_Ref', 'class_name': '', 'control_type': 'ListItem'}, {'index': 6, 'automation_id': '', 'name': 'Size_016_L', 'class_name': '', 'contr
+ol_type': 'ListItem'}, {'index': 7, 'automation_id': '', 'name': 'Size_010_L', 'class_name': '', 'control_type': 'ListItem'}, {'index': 8, 'automation_id': '', 'name': 'Size_090_L_Wrn', 'class_name': '', 'control_type': 'ListItem'}, {
+'index': 9, 'automation_id': '', 'name': 'Size_075_L', 'class_name': '', 'control_type': 'ListItem'}, {'index': 10, 'automation_id': '', 'name': 'Size_120_XL', 'class_name': '', 'control_type': 'ListItem'}, {'index': 11, 'automation_i
+d': '', 'name': 'Size_100_XL', 'class_name': '', 'control_type': 'ListItem'}, {'index': 12, 'automation_id': '', 'name': 'Size_050_XL', 'class_name': '', 'control_type': 'ListItem'}, {'index': 13, 'automation_id': '', 'name': 'Size_02
+5_XL', 'class_name': '', 'control_type': 'ListItem'}, {'index': 14, 'automation_id': '', 'name': 'Size_016_XL', 'class_name': '', 'control_type': 'ListItem'}, {'index': 15, 'automation_id': '', 'name': 'Size_010_XL', 'class_name': '',
+ 'control_type': 'ListItem'}, {'index': 16, 'automation_id': '', 'name': 'Size_090_XL_Wrn', 'class_name': '', 'control_type': 'ListItem'}, {'index': 17, 'automation_id': '', 'name': 'Size_075_XL', 'class_name': '', 'control_type': 'Li
+stItem'}]

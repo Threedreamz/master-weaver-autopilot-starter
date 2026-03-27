@@ -1,0 +1,5 @@
+generell:
+
+verhalten, wenn an --> label "Röhre an", button "Röhre aus",  Generatorstrom µA ~= Soll
+
+wenn aus --> label "Röhre aus", button "Röhre aus", Generatorstrom µA = 0

@@ -1,0 +1,8 @@
+###
+#
+#   isWindowOpen()
+#   isWindowClosed()
+#   connect()
+#   
+#
+###

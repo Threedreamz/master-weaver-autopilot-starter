@@ -1,0 +1,16 @@
+[Checkbox] Name: Grauwerte skalieren, ID: 2602, Checked: False
+[Checkbox] Name: schnelles Livebild, ID: 2779, Checked: False
+[Checkbox] Name: aktiv, ID: 2612, Checked: False
+[Checkbox] Name: aktiv, ID: 2666, Checked: False
+[Checkbox] Name: On the Fly, ID: 3047, Checked: True
+[Checkbox] Name: Aufwärmphase, ID: 2573, Checked: False
+[Checkbox] Name: Abschnittstomografie, ID: 2575, Checked: False
+[Checkbox] Name: aktiv, ID: 2580, Checked: False
+[Checkbox] Name: warte auf Objekt-Positionierung, ID: 2763, Checked: False
+[Checkbox] Name: Projektionsbilder sichern, ID: 2582, Checked: False
+[Checkbox] Name: Offline, ID: 2583, Checked: False
+[{'automation_id': '2602', 'name': 'Grauwerte skalieren', 'checked': False}, {'automation_id': '2779', 'name': 'schnelles Livebild', 'checked': False}, {'automation_id': '2612'
+, 'name': 'aktiv', 'checked': False}, {'automation_id': '2666', 'name': 'aktiv', 'checked': False}, {'automation_id': '3047', 'name': 'On the Fly', 'checked': True}, {'automati
+on_id': '2573', 'name': 'Aufwärmphase', 'checked': False}, {'automation_id': '2575', 'name': 'Abschnittstomografie', 'checked': False}, {'automation_id': '2580', 'name': 'aktiv
+', 'checked': False}, {'automation_id': '2763', 'name': 'warte auf Objekt-Positionierung', 'checked': False}, {'automation_id': '2582', 'name': 'Projektionsbilder sichern', 'ch
+ecked': False}, {'automation_id': '2583', 'name': 'Offline', 'checked': False}]

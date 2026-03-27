@@ -1,0 +1,33 @@
+[01] Type=Button       Text='Maximieren'  AutomationId='None'  Pos=1828,-7 46x30
+[02] Type=Button       Text='Minimieren'  AutomationId='None'  Pos=1781,-7 47x30
+[03] Type=Button       Text='Schließen'  AutomationId='None'  Pos=1874,-7 47x30
+[04] Type=Button       Text='Wiederherstellen'  AutomationId='None'  Pos=3746,8 46x14
+[05] Type=Button       Text='(no text)'  AutomationId='None'  Pos=3706,48 32x32
+[06] Type=Button       Text='(no text)'  AutomationId='33120'  Pos=3084,50 32x31
+[07] Type=Button       Text='(no text)'  AutomationId='33222'  Pos=3052,50 32x31
+[08] Type=Button       Text='(no text)'  AutomationId='32802'  Pos=3020,50 32x31
+[09] Type=Button       Text='Strategie'  AutomationId='None'  Pos=1923,90 32x32
+[10] Type=MenuBar      Text='Systemmenü'  AutomationId='MenuBar'  Pos=0,0 22x22
+[11] Type=MenuBar      Text='Anwendungsmenü'  AutomationId='MenuBar'  Pos=0,23 1920x19
+[12] Type=MenuItem     Text='Systemmenü'  AutomationId='None'  Pos=0,0 22x22
+[13] Type=MenuItem     Text='?'  AutomationId='None'  Pos=599,23 19x19
+[14] Type=MenuItem     Text='Abweichungsdarstellung'  AutomationId='None'  Pos=138,23 145x19
+[15] Type=MenuItem     Text='Ansichtsfenster'  AutomationId='None'  Pos=504,23 95x19
+[16] Type=MenuItem     Text='CAD Bearbeiten'  AutomationId='None'  Pos=41,23 97x19
+[17] Type=MenuItem     Text='Darstellung'  AutomationId='None'  Pos=345,23 74x19
+[18] Type=MenuItem     Text='Datei'  AutomationId='None'  Pos=0,23 41x19
+[19] Type=MenuItem     Text='Einstellungen'  AutomationId='None'  Pos=419,23 85x19
+[20] Type=MenuItem     Text='Extra'  AutomationId='None'  Pos=2546,23 39x19
+[21] Type=MenuItem     Text='Grafik'  AutomationId='None'  Pos=2175,23 45x19
+[22] Type=MenuItem     Text='Grafik3D'  AutomationId='None'  Pos=2220,23 59x19
+[23] Type=MenuItem     Text='Hilfe'  AutomationId='None'  Pos=2585,23 39x19
+[24] Type=MenuItem     Text='Koordinatensystem'  AutomationId='None'  Pos=2279,23 116x19
+[25] Type=MenuItem     Text='Messablauf'  AutomationId='None'  Pos=2012,23 74x19
+[26] Type=MenuItem     Text='Messprotokoll'  AutomationId='None'  Pos=2086,23 89x19
+[27] Type=MenuItem     Text='Selektion'  AutomationId='None'  Pos=283,23 62x19
+[28] Type=MenuItem     Text='Vorlauf'  AutomationId='None'  Pos=1961,23 51x19
+[29] Type=MenuItem     Text='Werkzeug'  AutomationId='None'  Pos=2395,23 66x19
+[30] Type=ToolBar      Text='(no text)'  AutomationId='59392'  Pos=3698,43 144x41
+[31] Type=ToolBar      Text='(no text)'  AutomationId='59392'  Pos=1918,43 144x41
+[32] Type=ToolBar      Text='(no text)'  AutomationId='59392'  Pos=1918,82 42x48
+[33] Type=ToolBar      Text='(no text)'  AutomationId='59392'  Pos=1918,128 42x213

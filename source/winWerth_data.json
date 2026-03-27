@@ -1,0 +1,78 @@
+{
+  "WinWerth_Window": {
+    "Profiles": {
+      "button_profile_press": { "x": 1834, "y": 63 },
+      "button_prof_colorCheck": { "x": 1817, "y": 55 },
+      "color_gray": [106, 103, 108]
+    },
+    "Select_Region": {
+      "select_button_sideMenu": { "x": 18, "y": 318 },
+      "select_btn_colorcheck": { "x": 3, "y": 318 }
+    },
+    "Liste_Komponenten": {
+      "Sidebar": { "pos": { "x": 937, "y": 282 }, "color": [205, 205, 205] },
+      "Volumen": {
+        "Voxl3": { "x": 200, "y": 230 },
+        "Voxl3_Kont_3": { "x": 200, "y": 256 }
+      }
+    },
+    "Status_Farbcode_Boxen": {
+      "Error_Boxen": {
+        "left_Box": { "x": 173, "y": 912 },
+        "right_Box": { "x": 217, "y": 912 }
+      },
+      "Roehrenstatus": { "x": 75, "y": 850, "color" : [0, 255, 0] },
+      "Roehrenbetriebstatus": { "x": 75, "y": 890 },
+      "on_Color" : [255, 0, 1],
+      "off_Color" : [0, 255, 0],
+      "error_Color" : [0, 255, 0]
+    },
+    "Buttons": {
+      "Top_Menu": {
+        "DATEI": { "x": 7, "y": 32 },
+        "WERKZEUG": { "x": 481, "y": 31 },
+        "WERKZEUG_AUSWAHL": { "x": 481, "y": 132 },
+        "GRAFIK": { "x": 262, "y": 32 },
+        "SPEICHERN": { "x": 335, "y": 250 }
+      },
+      "Röhre_An": { "x": 70, "y": 345 },
+      "Spannung_TXT_Feld": { "x": 171, "y": 460 },
+      "Gener_Strom_µA": { "x": 170, "y": 469 }
+    },
+    "scrollBar" : {
+      "ampereBar" : {  "x": 65, "y": 419, "w" : 83, "h" : 1 },
+      "voltageBar" : { "x": 65, "y": 459, "w" : 83, "h" : 1 }
+    },
+    "Rotierung" : {
+      "A_Box" : [30,817],
+      "Menu_Button" : [120,812]
+    } 
+  },
+  "Profile_Window": {
+    "Absolute": {
+      "window_pos": { "x": 1420, "y": 84 },
+      "window_x_start": { "x": 1820, "y": 84 },
+      "125L_first": { "x": 1820, "y": 150 },
+      "100L_second": { "x": 1820, "y": 165 },
+      "50L_third": { "x": 1820, "y": 180 },
+      "Schliessen_Button": { "x": 1650, "y": 500 }
+    },
+    "Relative": {
+      "Window_X_offset": 400,
+      "Window_Y_offset_first": 66,
+      "Next_Button_offset": 15,
+      "Schliessen_Button": { "x": 230, "y": 416 }
+    }
+  },
+  "STL_Speichern_Unter": {
+    "TITLE": "Speichern unter",
+    "Absolute": {
+      "Window_Position": { "x": 682, "y": 284 },
+      "Wähle_Ort": { "x": 1032, "y": 332 },
+      "Wähle_Pfad": { "x": 887, "y": 652 }
+    },
+    "Relative": {
+      "Wähle_Pfad": { "x": 205, "y": 368 }
+    }
+  }
+}

@@ -1,0 +1,284 @@
+[0] AutomationID: '1251' | Text: 'Play' | ClassName: 'Butto
+n' | FoundIndex: 0
+[1] AutomationID: '1269' | Text: 'Pause' | ClassName: 'Butt
+on' | FoundIndex: 1
+[2] AutomationID: '1270' | Text: 'Stop' | ClassName: 'Butto
+n' | FoundIndex: 2
+[3] AutomationID: '1536' | Text: 'Edit' | ClassName: 'Butto
+n' | FoundIndex: 3
+[4] AutomationID: '1537' | Text: 'RunSelection' | ClassName
+: 'Button' | FoundIndex: 4
+[5] AutomationID: '1538' | Text: 'RunSelectionOffline' | Cl
+assName: 'Button' | FoundIndex: 5
+[6] AutomationID: '2863' | Text: 'RunStepIno' | ClassName:
+'Button' | FoundIndex: 6
+[7] AutomationID: '' | Text: '' | ClassName: '' | FoundInde
+x: 7
+[8] AutomationID: '' | Text: '' | ClassName: '' | FoundInde
+x: 8
+[9] AutomationID: '' | Text: '' | ClassName: '' | FoundInde
+x: 9
+[10] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 10
+[11] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 11
+[12] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 12
+[13] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 13
+[14] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 14
+[15] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 15
+[16] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 16
+[17] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 17
+[18] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 18
+[19] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 19
+[20] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 20
+[21] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 21
+[22] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 22
+[23] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 23
+[24] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 24
+[25] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 25
+[26] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 26
+[27] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 27
+[28] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 28
+[29] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 29
+[30] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 30
+[31] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 31
+[32] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 32
+[33] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 33
+[34] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 34
+[35] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 35
+[36] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 36
+[37] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 37
+[38] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 38
+[39] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 39
+[40] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 40
+[41] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 41
+[42] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 42
+[43] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 43
+[44] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 44
+[45] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 45
+[46] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 46
+[47] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 47
+[48] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 48
+[49] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 49
+[50] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 50
+[51] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 51
+[52] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 52
+[53] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 53
+[54] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 54
+[55] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 55
+[56] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 56
+[57] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 57
+[58] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 58
+[59] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 59
+[60] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 60
+[61] AutomationID: '' | Text: 'Wiederherstellen' | ClassNam
+e: '' | FoundIndex: 61
+[62] AutomationID: '' | Text: 'Maximieren' | ClassName: ''
+| FoundIndex: 62
+[63] AutomationID: '' | Text: 'Schließen' | ClassName: '' |
+ FoundIndex: 63
+[64] AutomationID: '32952' | Text: '' | ClassName: 'Button'
+ | FoundIndex: 64
+[65] AutomationID: '32803' | Text: '' | ClassName: 'Button'
+ | FoundIndex: 65
+[66] AutomationID: '32968' | Text: '' | ClassName: 'Button'
+ | FoundIndex: 66
+[67] AutomationID: '34062' | Text: '' | ClassName: 'Button'
+ | FoundIndex: 67
+[68] AutomationID: '34046' | Text: '' | ClassName: 'Button'
+ | FoundIndex: 68
+[69] AutomationID: '33203' | Text: '' | ClassName: 'Button'
+ | FoundIndex: 69
+[70] AutomationID: '32791' | Text: '' | ClassName: 'Button'
+ | FoundIndex: 70
+[71] AutomationID: '33120' | Text: '' | ClassName: 'Button'
+ | FoundIndex: 71
+[72] AutomationID: '33222' | Text: '' | ClassName: 'Button'
+ | FoundIndex: 72
+[73] AutomationID: '32802' | Text: '' | ClassName: 'Button'
+ | FoundIndex: 73
+[74] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 74
+[75] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 75
+[76] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 76
+[77] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 77
+[78] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 78
+[79] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 79
+[80] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 80
+[81] AutomationID: '' | Text: '' | ClassName: '' | FoundInd
+ex: 81
+[82] AutomationID: '2581' | Text: 'Beladen / Entladen' | Cl
+assName: 'Button' | FoundIndex: 82
+[83] AutomationID: '2273' | Text: 'Röhre an' | ClassName: '
+Button' | FoundIndex: 83
+[84] AutomationID: '2671' | Text: '<<' | ClassName: 'Button
+' | FoundIndex: 84
+[85] AutomationID: 'DropDown' | Text: 'Öffnen' | ClassName:
+ '' | FoundIndex: 85
+[86] AutomationID: '' | Text: 'Seite nach links' | ClassNam
+e: '' | FoundIndex: 86
+[87] AutomationID: '' | Text: 'Seite nach links' | ClassNam
+e: '' | FoundIndex: 87
+[88] AutomationID: '' | Text: 'Seite nach rechts' | ClassNa
+me: '' | FoundIndex: 88
+[89] AutomationID: '' | Text: 'Seite nach links' | ClassNam
+e: '' | FoundIndex: 89
+[90] AutomationID: '' | Text: 'Seite nach rechts' | ClassNa
+me: '' | FoundIndex: 90
+[91] AutomationID: '2778' | Text: '...' | ClassName: 'Butto
+n' | FoundIndex: 91
+[92] AutomationID: '' | Text: 'Seite nach links' | ClassNam
+e: '' | FoundIndex: 92
+[93] AutomationID: '' | Text: 'Seite nach rechts' | ClassNa
+me: '' | FoundIndex: 93
+[94] AutomationID: '' | Text: 'Seite nach rechts' | ClassNa
+me: '' | FoundIndex: 94
+[95] AutomationID: '' | Text: 'Seite nach rechts' | ClassNa
+me: '' | FoundIndex: 95
+[96] AutomationID: '' | Text: 'Seite nach links' | ClassNam
+e: '' | FoundIndex: 96
+[97] AutomationID: '' | Text: 'Seite nach rechts' | ClassNa
+me: '' | FoundIndex: 97
+[98] AutomationID: '3399' | Text: 'Auto' | ClassName: 'Butt
+on' | FoundIndex: 98
+[99] AutomationID: '2590' | Text: 'Hell- / Dunkelabgleich'
+| ClassName: 'Button' | FoundIndex: 99
+[100] AutomationID: 'DropDown' | Text: 'Öffnen' | ClassName
+: '' | FoundIndex: 100
+[101] AutomationID: 'DropDown' | Text: 'Öffnen' | ClassName
+: '' | FoundIndex: 101
+[102] AutomationID: '2571' | Text: 'Punkt 1' | ClassName: '
+Button' | FoundIndex: 102
+[103] AutomationID: '2588' | Text: 'Punkt 2' | ClassName: '
+Button' | FoundIndex: 103
+[104] AutomationID: '2625' | Text: 'Übersicht' | ClassName:
+ 'Button' | FoundIndex: 104
+[105] AutomationID: '2572' | Text: 'Mittelpunkt' | ClassNam
+e: 'Button' | FoundIndex: 105
+[106] AutomationID: 'DropDown' | Text: 'Öffnen' | ClassName
+: '' | FoundIndex: 106
+[107] AutomationID: '2786' | Text: 'Driftkorrektur ...' | C
+lassName: 'Button' | FoundIndex: 107
+[108] AutomationID: '2579' | Text: '...' | ClassName: 'Butt
+on' | FoundIndex: 108
+[109] AutomationID: 'DropDown' | Text: 'Öffnen' | ClassName
+: '' | FoundIndex: 109
+[110] AutomationID: '2589' | Text: '...' | ClassName: 'Butt
+on' | FoundIndex: 110
+[111] AutomationID: '2593' | Text: '+' | ClassName: 'Button
+' | FoundIndex: 111
+[112] AutomationID: '2594' | Text: '-' | ClassName: 'Button
+' | FoundIndex: 112
+[113] AutomationID: '2670' | Text: '' | ClassName: 'Button'
+ | FoundIndex: 113
+[114] AutomationID: '2591' | Text: '' | ClassName: 'Button'
+ | FoundIndex: 114
+[115] AutomationID: '2592' | Text: '' | ClassName: 'Button'
+ | FoundIndex: 115
+[116] AutomationID: '2667' | Text: 'Stop' | ClassName: 'But
+ton' | FoundIndex: 116
+[117] AutomationID: 'DropDown' | Text: 'Öffnen' | ClassName
+: '' | FoundIndex: 117
+[118] AutomationID: 'DropDown' | Text: 'Öffnen' | ClassName
+: '' | FoundIndex: 118
+[119] AutomationID: 'DropDown' | Text: 'Öffnen' | ClassName
+: '' | FoundIndex: 119
+[120] AutomationID: '2595' | Text: '...' | ClassName: 'Butt
+on' | FoundIndex: 120
+[121] AutomationID: '3539' | Text: '...' | ClassName: 'Butt
+on' | FoundIndex: 121
+[122] AutomationID: 'UpButton' | Text: 'Bildlauf nach oben'
+ | ClassName: '' | FoundIndex: 122
+[123] AutomationID: 'UpPageButton' | Text: 'Seite nach oben
+' | ClassName: '' | FoundIndex: 123
+[124] AutomationID: 'DownPageButton' | Text: 'Seite nach un
+ten' | ClassName: '' | FoundIndex: 124
+[125] AutomationID: 'DownButton' | Text: 'Bildlauf nach unt
+en' | ClassName: '' | FoundIndex: 125
+[126] AutomationID: '' | Text: 'Punkt' | ClassName: '' | Fo
+undIndex: 126
+[127] AutomationID: '' | Text: 'Gerade' | ClassName: '' | F
+oundIndex: 127
+[128] AutomationID: '' | Text: 'Kreis' | ClassName: '' | Fo
+undIndex: 128
+[129] AutomationID: '' | Text: '' | ClassName: '' | FoundIn
+dex: 129
+[130] AutomationID: '' | Text: '' | ClassName: '' | FoundIn
+dex: 130
+[131] AutomationID: '' | Text: 'Strategie' | ClassName: ''
+| FoundIndex: 131
+[132] AutomationID: '32949' | Text: 'Löschen' | ClassName:
+'Button' | FoundIndex: 132
+[133] AutomationID: '1310' | Text: 'Papierkorb' | ClassName
+: 'Button' | FoundIndex: 133
+[134] AutomationID: '32805' | Text: 'D / R' | ClassName: 'B
+utton' | FoundIndex: 134
+[135] AutomationID: '32951' | Text: 'BS' | ClassName: 'Butt
+on' | FoundIndex: 135
+[136] AutomationID: '32808' | Text: 'Pos 00' | ClassName: '
+Button' | FoundIndex: 136
+[137] AutomationID: '1000' | Text: 'Messen' | ClassName: 'B
+utton' | FoundIndex: 137
+[138] AutomationID: '1001' | Text: 'Speichern 000' | ClassN
+ame: 'Button' | FoundIndex: 138
+[139] AutomationID: '' | Text: 'Minimieren' | ClassName: ''
+ | FoundIndex: 139
+[140] AutomationID: '' | Text: 'Wiederherstellen' | ClassNa
+me: '' | FoundIndex: 140
+[141] AutomationID: '' | Text: 'Schließen' | ClassName: ''
+| FoundIndex: 141

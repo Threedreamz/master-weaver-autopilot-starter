@@ -1,0 +1,21 @@
+  - Static | Röhrenbetriebsstatus OK | ID: 2672
+    - Static | Röhre aus | ID: 1633
+
+      - Pane | Tree Window | ID: 1294
+    - TreeView |  | ID: 1
+      - TreeItem | DMIS-MAIN | ID:
+      - TreeItem | SAVE / COOR(DMIS-MAIN), 3 | ID:
+      - TreeItem | A-AXIS, 0.0000 | ID:
+      - TreeItem | TECOMP / ON, 0.0000115000 | ID:
+      - TreeItem | W3D / DEFLECTION, 0.1000 | ID:
+      - TreeItem | Rechnen | ID:
+      - TreeItem | ENDFIL | ID:
+
+
+      - Button | Punkt | ID:
+  - Button | Gerade | ID:
+  - Button | Kreis | ID:
+
+
+
+  - Button | Messen | ID: 1000?
