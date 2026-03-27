@@ -40,6 +40,13 @@ from .rotation import activate_drehen, is_drehen_on, set_rotation_angle
 from .tube import check_tube_on, check_tube_ready, click_tube_on
 from .win_api import WindowInfo, create_window_api
 
+# Try to import the trello_era pywinauto bridge for enhanced LIVE mode
+try:
+    from .pywinauto_bridge import BRIDGE_AVAILABLE, PyWinAutoBridge
+except ImportError:
+    BRIDGE_AVAILABLE = False
+    PyWinAutoBridge = None  # type: ignore[assignment,misc]
+
 logger = logging.getLogger("ctpc-api.controller")
 
 # WinWerth main-window title substring used to locate the application.
@@ -110,6 +117,21 @@ class WinWerthController:
                     win_info.y,
                 )
 
+        # Initialise pywinauto bridge (enhanced LIVE mode via trello_era modules)
+        self._bridge: Optional[Any] = None
+        if not self.mock_mode and BRIDGE_AVAILABLE:
+            try:
+                self._bridge = PyWinAutoBridge()
+                self._bridge.connect()
+                if self._bridge.is_connected:
+                    logger.info("PyWinAutoBridge: connected — using trello_era pywinauto modules")
+                else:
+                    logger.warning("PyWinAutoBridge: connection failed — falling back to pixel-based control")
+                    self._bridge = None
+            except Exception as exc:
+                logger.warning("PyWinAutoBridge init failed (%s) — falling back to pixel-based control", exc)
+                self._bridge = None
+
         # Mock state tracking
         self._mock_tube_on = False
         self._mock_rotation_active = False
@@ -158,6 +180,15 @@ class WinWerthController:
 
             logger.info("Starting profile selection for '%s'", profile_name)
 
+            # Prefer pywinauto bridge if available (more reliable UIA-based)
+            if self._bridge is not None:
+                ok = self._bridge.complete_profile_selection_sequence(profile_name)
+                if ok:
+                    logger.info("Profile selection via bridge complete: %s", profile_name)
+                    return True
+                logger.warning("Bridge profile selection failed — falling back to pixel-based")
+
+            # Fallback: pixel-based approach
             # Step 1 — open profile window
             ok = open_profile_window(_WINWERTH_TITLE, self.config, self.mouse)
             if not ok:
@@ -205,6 +236,13 @@ class WinWerthController:
                 time.sleep(random.uniform(0.5, 1.5))
                 self._mock_tube_on = True
                 return True
+
+            # Prefer bridge if available
+            if self._bridge is not None:
+                ok = self._bridge.click_tube_power_on()
+                if ok:
+                    return True
+                logger.warning("Bridge tube_on failed — falling back to pixel-based")
 
             return click_tube_on(
                 _WINWERTH_TITLE,
@@ -453,6 +491,13 @@ class WinWerthController:
                 logger.info("[mock] Opening save dialog")
                 time.sleep(random.uniform(0.3, 0.8))
                 return True
+
+            # Prefer bridge if available
+            if self._bridge is not None:
+                ok = self._bridge.open_save_dialog()
+                if ok:
+                    return True
+                logger.warning("Bridge open_save_dialog failed — falling back to pixel-based")
 
             try:
                 # Click GRAFIK menu
