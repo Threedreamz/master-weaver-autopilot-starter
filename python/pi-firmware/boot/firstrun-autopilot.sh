@@ -147,7 +147,7 @@ elif [ -f "/boot/firmware/pkgs/autopilot.tar.gz" ]; then
     echo "  Source extracted."
 else
     echo "  Cloning from GitHub..."
-    git clone --depth=1 https://github.com/Threedreamz/master-weaver-autopilot-starter.git /opt/autopilot
+    git clone --depth=1 --branch dev https://github.com/Threedreamz/master-weaver-autopilot-starter.git /opt/autopilot
     echo "  Cloned."
 fi
 mkdir -p /opt/autopilot/config /opt/autopilot/releases

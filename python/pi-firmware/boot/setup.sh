@@ -78,7 +78,7 @@ else
     fi
     rm -rf "${INSTALL_DIR}"
   fi
-  git clone "${REPO_URL}" "${INSTALL_DIR}"
+  git clone --branch dev "${REPO_URL}" "${INSTALL_DIR}"
   # Restore config directory
   if [ -d /tmp/autopilot-config-backup ]; then
     cp -r /tmp/autopilot-config-backup "${INSTALL_DIR}/config"
